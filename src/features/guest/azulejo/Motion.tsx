@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { az, serif } from "./palette";
 import { Tile, pat, rotOf, seeded, type TilePattern } from "./Tile";
 
@@ -125,14 +125,18 @@ export function ScrollWords({ parts, className = "", style }: { parts: (string |
             .split(" ")
             .filter(Boolean)
             .map((w) => (
-              <span key={`${k}-${i}`} className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
-                {w}
-              </span>
+              <Fragment key={`${k}-${i}`}>
+                <span className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
+                  {w}
+                </span>{" "}
+              </Fragment>
             ))
         ) : (
-          <span key={`${k}-${i}`} className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
-            {p}
-          </span>
+          <Fragment key={`${k}-${i}`}>
+            <span className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
+              {p}
+            </span>{" "}
+          </Fragment>
         ),
       )}
     </h2>

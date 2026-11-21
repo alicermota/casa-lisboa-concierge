@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { az, display, scrollToId } from "./palette";
 import { Tile, pat, rotOf, seeded } from "./Tile";
 import { useConciergeEntry } from "../useConciergeEntry";
@@ -71,14 +71,18 @@ function Words({ children, start = 0 }: { children: (string | ReactNode)[]; star
             .split(" ")
             .filter(Boolean)
             .map((w) => (
-              <span key={`${k}-${w}-${i}`} className="az-word mr-[0.22em]" style={{ animationDelay: `${i++ * 70}ms` }}>
-                {w}
-              </span>
+              <Fragment key={`${k}-${w}-${i}`}>
+                <span className="az-word" style={{ animationDelay: `${i++ * 70}ms` }}>
+                  {w}
+                </span>{" "}
+              </Fragment>
             ))
         ) : (
-          <span key={k} className="az-word mr-[0.22em]" style={{ animationDelay: `${i++ * 70}ms` }}>
-            {part}
-          </span>
+          <Fragment key={k}>
+            <span className="az-word" style={{ animationDelay: `${i++ * 70}ms` }}>
+              {part}
+            </span>{" "}
+          </Fragment>
         ),
       )}
     </>
