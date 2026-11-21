@@ -1,9 +1,10 @@
 /**
  * THE ONE PLACE where the guest page picks its concierge.
- * Now: the mock call (development only, never in the demo).
- * At merge: swap to the agent team's hook, e.g.
- *   export { useConcierge as useActiveConcierge } from "@/features/agent/useConcierge";
- *   export const IS_MOCK = false;
+ * Default: the real ElevenLabs agent (agent team's hook). Add ?mock=1 to the URL for the scripted fake call.
+ * Only import this from client-only code (see azulejo/LiveConcierge.tsx): the SDK touches the browser.
  */
-export { useMockConcierge as useActiveConcierge } from "./mockConcierge";
-export const IS_MOCK = true;
+import { useConcierge } from "@/features/agent/useConcierge";
+import { useMockConcierge } from "./mockConcierge";
+
+export const IS_MOCK = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("mock") === "1";
+export const useActiveConcierge = IS_MOCK ? useMockConcierge : useConcierge;

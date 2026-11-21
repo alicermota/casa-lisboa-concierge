@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentDebugRouteImport } from './routes/agent-debug'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DeskRouteImport } from './routes/desk'
 import { Route as TramLabRouteImport } from './routes/tram-lab'
@@ -17,6 +18,11 @@ import { Route as TramLabRouteImport } from './routes/tram-lab'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentDebugRoute = AgentDebugRouteImport.update({
+  id: '/agent-debug',
+  path: '/agent-debug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoRoute = DemoRouteImport.update({
@@ -37,12 +43,14 @@ const TramLabRoute = TramLabRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo' | '/desk' | '/tram-lab'
+  fullPaths: '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo' | '/desk' | '/tram-lab'
-  id: '__root__' | '/' | '/demo' | '/desk' | '/tram-lab'
+  to: '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
+  id: '__root__' | '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentDebugRoute: typeof AgentDebugRoute
   DemoRoute: typeof DemoRoute
   DeskRoute: typeof DeskRoute
   TramLabRoute: typeof TramLabRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent-debug': {
+      id: '/agent-debug'
+      path: '/agent-debug'
+      fullPath: '/agent-debug'
+      preLoaderRoute: typeof AgentDebugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentDebugRoute: AgentDebugRoute,
   DemoRoute: DemoRoute,
   DeskRoute: DeskRoute,
   TramLabRoute: TramLabRoute,

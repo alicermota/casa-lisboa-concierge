@@ -2,10 +2,10 @@
 const u = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=900&q=75`;
 
 export const ROOMS_DISPLAY = [
-  { name: "Classic Double", size: 18, feature: "City view", from: 140, image: u("1631049307264-da0ec9d70304") },
-  { name: "Superior Balcony", size: 24, feature: "Private balcony", from: 185, image: u("1590490360182-c33d57733427") },
-  { name: "Family Suite", size: 38, feature: "Up to 4 guests", from: 260, image: u("1566665797739-1674de7a421a") },
-  { name: "Rooftop Suite", size: 45, feature: "Terrace and river view", from: 340, image: u("1582719478250-c89cae4dc85b") },
+  { name: "Classic Double", size: 18, feature: "City view", from: 140, image: "/art/rooms/classic_double.jpg" },
+  { name: "Superior Balcony", size: 24, feature: "Private balcony", from: 185, image: "/art/rooms/superior_balcony.jpg" },
+  { name: "Family Suite", size: 38, feature: "Up to 4 guests", from: 260, image: "/art/rooms/family_suite.jpg" },
+  { name: "Rooftop Suite", size: 45, feature: "Terrace and river view", from: 340, image: "/art/rooms/rooftop_suite.jpg" },
 ] as const;
 
 export const ROOFTOP_IMAGE = `https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=75`;

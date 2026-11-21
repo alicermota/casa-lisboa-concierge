@@ -7,7 +7,7 @@ import type { Inquiry } from "@/shared/types";
 import { roomById, extraById } from "@/shared/hotel";
 import { getInquiries, subscribeToNewInquiries } from "./data";
 
-const C = { bg: "#F7F4EC", card: "#FFFFFF", ink: "#0F1B3D", muted: "#0F1B3D99", cobalt: "#1F45B5", amber: "#E8A33D", teal: "#4FB3BF", rule: "#1F45B51f" };
+const C = { bg: "#F5F6FA", card: "#FFFFFF", ink: "#0A0A0A", muted: "#0A0A0A99", cobalt: "#0B3BF0", amber: "#F2A93B", teal: "#4FB3BF", rule: "#0A0A0A14" };
 const PRIO: Record<string, string> = { hot: C.amber, warm: C.cobalt, cold: "#94A3B8" };
 
 export function DeskPreview() {
@@ -26,15 +26,15 @@ export function DeskPreview() {
   const hot = items.filter((i) => i.priority === "hot").length;
 
   return (
-    <div className="min-h-full p-6 md:p-10" style={{ backgroundColor: C.bg, color: C.ink, fontFamily: "Inter, sans-serif" }}>
-      <p className="text-xs tracking-[0.3em]" style={{ color: C.cobalt }}>night desk.</p>
-      <h1 className="mt-2 text-4xl font-light" style={{ fontFamily: "Fraunces, serif" }}>good morning. here's your night.</h1>
+    <div className="min-h-full p-6 md:p-10" style={{ backgroundColor: C.bg, color: C.ink, fontFamily: '"DM Sans", sans-serif' }}>
+      <p className="text-sm" style={{ color: C.cobalt }}>night desk.</p>
+      <h1 className="mt-2 text-4xl font-light" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif' }}>good morning. here's your night.</h1>
 
       <div className="mt-8 grid grid-cols-3 gap-4" style={{ fontVariantNumeric: "tabular-nums" }}>
         {[["inquiries", String(items.length)], ["potential value", `€${total.toLocaleString("en")}`], ["hot", String(hot)]].map(([l, v]) => (
           <div key={l} className="rounded-sm border p-4" style={{ borderColor: C.rule, backgroundColor: C.card }}>
             <p className="text-xs" style={{ color: C.muted }}>{l}</p>
-            <p className="mt-1 text-3xl" style={{ fontFamily: "Fraunces, serif", color: l === "potential value" ? C.cobalt : C.ink }}>{v}</p>
+            <p className="mt-1 text-3xl" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif', color: l === "potential value" ? C.cobalt : C.ink }}>{v}</p>
           </div>
         ))}
       </div>
@@ -47,11 +47,11 @@ export function DeskPreview() {
             style={{ borderColor: i.id === fresh ? C.teal : C.rule, backgroundColor: C.card, boxShadow: i.id === fresh ? `0 0 0 3px ${C.teal}33` : "none" }}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="text-lg" style={{ fontFamily: "Fraunces, serif" }}>
+              <p className="text-lg" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif' }}>
                 {i.guest_name}
                 <span className="ml-2 text-xs uppercase" style={{ color: C.muted }}>{i.language}</span>
               </p>
-              <p className="text-xl" style={{ fontFamily: "Fraunces, serif", color: C.cobalt, fontVariantNumeric: "tabular-nums" }}>€{i.estimated_value_eur}</p>
+              <p className="text-xl" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif', color: C.cobalt, fontVariantNumeric: "tabular-nums" }}>€{i.estimated_value_eur}</p>
             </div>
             <p className="mt-1 text-sm" style={{ color: C.muted }}>
               {roomById(i.room_id)?.name}
