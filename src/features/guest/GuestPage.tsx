@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { EntryGate, shouldShowEntry } from "./entry/EntryGate";
 import Lenis from "lenis";
 import "./azulejo/azulejo.css";
 import { az } from "./azulejo/palette";
@@ -14,9 +15,14 @@ import { Extras, Footer, GoodToKnow, LisbonRecommendations, Rooftop, Rooms } fro
  * The previous tram journey still lives in ./tram and ./tram3d (and /tram-lab) but is no longer mounted here.
  */
 export function GuestPage() {
+  // opening animation (once per session); remounting the hero replays its entrance after the doors
+  const [entry, setEntry] = useState(false);
+  const [heroKey, setHeroKey] = useState(0);
+  useEffect(() => setEntry(shouldShowEntry()), []);
+
   // silky smooth scroll, like tile.pt
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (entry || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({ lerp: 0.1 });
     let id = 0;
     const raf = (t: number) => {
@@ -28,13 +34,14 @@ export function GuestPage() {
       cancelAnimationFrame(id);
       lenis.destroy();
     };
-  }, []);
+  }, [entry]);
 
   return (
     <div className="az-page" style={{ backgroundColor: az.glaze, color: az.ink, fontFamily: '"DM Sans", sans-serif' }}>
       <TileDefs />
       <AzNav />
-      <AzHero />
+      {entry && <EntryGate onDone={() => { setEntry(false); setHeroKey((k) => k + 1); }} />}
+      <AzHero key={heroKey} />
       <WelcomeMarquee />
       <Rooms />
       <Rooftop />
