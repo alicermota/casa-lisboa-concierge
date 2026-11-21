@@ -53,3 +53,18 @@
   .az-marquee-track, .az-drift, .az-glow { animation: none; }
   .az-turn:hover { transform: none; }
 }
+
+/* confirmation stamp */
+@keyframes az-stamp {
+  0% { opacity: 0; transform: scale(2.2) rotate(-14deg); }
+  60% { opacity: 1; transform: scale(0.95) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+.az-stamp { animation: az-stamp 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+/* orb breathing while the concierge speaks */
+@keyframes az-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.az-breathe { animation: az-breathe 1.2s ease-in-out infinite; }
+@keyframes az-listen { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 163, 61, 0.5); } 50% { box-shadow: 0 0 0 18px rgba(232, 163, 61, 0); } }
+.az-listen { animation: az-listen 1.8s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .az-stamp, .az-breathe, .az-listen { animation: none; opacity: 1; } }
