@@ -49,7 +49,7 @@ export function TileStrip({ count = 24, size = 44, offset = 0 }: { count?: numbe
     <div className="flex w-full overflow-hidden" aria-hidden>
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="shrink-0" style={{ width: size, height: size }}>
-          <Tile pattern={(i + offset) % 2 === 0 ? "flor" : "rosa"} className="az-turn h-full w-full" />
+          <Tile plain pattern={(i + offset) % 2 === 0 ? "flor" : "rosa"} className="h-full w-full" />
         </div>
       ))}
     </div>
@@ -67,7 +67,7 @@ export function WelcomeMarquee() {
           <span key={i} className="flex items-center gap-8 pr-8 text-2xl md:text-3xl" style={{ ...serif, color: az.ink }}>
             {w}
             <span className="inline-block h-6 w-6 shrink-0">
-              <Tile pattern={pat(i)} className="h-full w-full" />
+              <Tile plain pattern={pat(i)} className="h-full w-full" />
             </span>
           </span>
         ))}
@@ -151,7 +151,7 @@ export function Frieze({ reverse = false, size = 40 }: { reverse?: boolean; size
       <div className="az-marquee-track az-frieze-track" style={{ animationDirection: reverse ? "reverse" : "normal" }}>
         {[...tiles, ...tiles].map((i, k) => (
           <div key={k} className="shrink-0" style={{ width: size, height: size }}>
-            <Tile pattern={i % 2 === 0 ? "flor" : "estrela"} rotate={rotOf(i)} className="h-full w-full" />
+            <Tile plain pattern={i % 2 === 0 ? "flor" : "estrela"} rotate={rotOf(i)} className="h-full w-full" />
           </div>
         ))}
       </div>

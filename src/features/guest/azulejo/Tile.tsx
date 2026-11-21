@@ -164,17 +164,20 @@ export function Tile({
   color = az.cobalt,
   className = "",
   rotate = 0,
+  plain = false,
 }: {
   pattern: TilePattern;
   color?: string;
   className?: string;
   rotate?: 0 | 90 | 180 | 270;
+  /** skip the brush/wash filters: much cheaper, for tiles repeated dozens of times */
+  plain?: boolean;
 }) {
   return (
     <svg viewBox="0 0 100 100" className={`block ${className}`} aria-hidden preserveAspectRatio="xMidYMid slice">
       <rect width="100" height="100" fill={az.glaze} />
-      <rect width="100" height="100" fill={az.glaze} filter="url(#az-wash)" />
-      <g filter="url(#az-brush)" transform={rotate ? `rotate(${rotate} 50 50)` : undefined}>
+      {!plain && <rect width="100" height="100" fill={az.glaze} filter="url(#az-wash)" />}
+      <g filter={plain ? undefined : "url(#az-brush)"} transform={rotate ? `rotate(${rotate} 50 50)` : undefined}>
         <Motif p={pattern} c={color} />
       </g>
       <rect x="0.5" y="0.5" width="99" height="99" fill="none" stroke={color} strokeOpacity="0.18" />

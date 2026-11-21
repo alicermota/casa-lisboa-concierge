@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
-import { Radio, LayoutDashboard, PhoneIncoming, List, ChartNoAxesCombined, ChevronLeft, ChevronRight, ArrowUpRight, Phone, ArrowDownToLine, ShieldCheck, Clock } from "lucide-react";
+import { Globe, Radio, LayoutDashboard, PhoneIncoming, List, ChartNoAxesCombined, ChevronLeft, ChevronRight, ArrowUpRight, Phone, ArrowDownToLine, ShieldCheck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Azulejo, TilePattern } from "./tile";
 import { briefingDelay, briefingSessionKey, commissionSaved, metrics, money, nightBriefing } from "@/features/desk/night/lib/presentation-data";
@@ -93,11 +93,16 @@ export function PresentationShell({ children }: { children: ReactNode }) {
               </Button>
             ))}
           </nav>
+          <Button asChild variant="ghost" className="presentation-nav-item">
+            <a href="/?intro=0" aria-label="Back to the website" title={open ? undefined : "Back to the website"}>
+              <Globe /><motion.span className="presentation-nav-label" animate={{ opacity: open ? 1 : 0, x: open ? 0 : -8 }} transition={{ duration: reduced ? 0 : 0.25 }}>Back to website</motion.span>
+            </a>
+          </Button>
           <div className="presentation-sidebar-tile"><Azulejo /><motion.div animate={{ opacity: open ? 1 : 0 }} transition={{ duration }}><strong>Night Desk</strong><span>Lisbon · 24 rooms</span></motion.div></div>
         </motion.aside>
         <header className="presentation-header">
-          <div className="presentation-wordmark">Casa Lisboa<span>Night Desk</span></div>
-          <div className="presentation-header-actions"><ThemeSelector /><NotificationInboxPopover bellRef={bellRef} receive={receive} handledIds={handledIds} onHandled={handleCall} open={inboxOpen} onOpenChange={setInboxOpen} onBriefing={() => setBriefingOpen(true)} /><div className="presentation-period">Last 30 days<span>23 Oct–21 Nov 2026</span></div></div>
+          <a href="/?intro=0" className="presentation-wordmark" title="Back to the website">Casa Lisboa<span>Night Desk</span></a>
+          <div className="presentation-header-actions"><Button asChild variant="outline" size="sm"><a href="/?intro=0"><ChevronLeft />Back to website</a></Button><ThemeSelector /><NotificationInboxPopover bellRef={bellRef} receive={receive} handledIds={handledIds} onHandled={handleCall} open={inboxOpen} onOpenChange={setInboxOpen} onBriefing={() => setBriefingOpen(true)} /><div className="presentation-period">Last 30 days<span>23 Oct–21 Nov 2026</span></div></div>
         </header>
         <main className="presentation-main">
           <div className="presentation-title-row">

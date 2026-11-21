@@ -31,7 +31,7 @@ export function AzConcierge() {
       <div className="pointer-events-none absolute inset-0 top-24 grid content-start grid-cols-8 md:grid-cols-12" aria-hidden>
         {Array.from({ length: 96 }).map((_, i) => (
           <div key={i} className="az-glow aspect-square" style={{ animationDelay: `${(i * 377) % 6000}ms` }}>
-            <Tile pattern={pat(i)} color={az.cobaltSoft} className="h-full w-full mix-blend-screen" />
+            <Tile plain pattern={pat(i)} color={az.cobaltSoft} className="h-full w-full mix-blend-screen" />
           </div>
         ))}
       </div>

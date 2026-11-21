@@ -38,7 +38,7 @@ export function NightShift() {
             opacity: inView ? 0.9 : 0,
           }}
         >
-          <Tile pattern={pat(i + 2)} className="h-full w-full rounded-sm" />
+          <Tile plain pattern={pat(i + 2)} className="h-full w-full rounded-sm" />
         </div>
       ))}
       <div className="relative z-10 text-center" style={{ color: "#fff" }}>

@@ -29,7 +29,6 @@ export function DeskPreview() {
     <div className="min-h-full p-6 md:p-10" style={{ backgroundColor: C.bg, color: C.ink, fontFamily: '"DM Sans", sans-serif' }}>
       <div className="flex items-center justify-between">
         <p className="text-sm" style={{ color: C.cobalt }}>night desk.</p>
-        <a href="/?intro=0" className="text-sm underline underline-offset-4" style={{ color: C.muted }}>← back to the site</a>
       </div>
       <h1 className="mt-2 text-4xl font-light" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif' }}>good morning. here's your night.</h1>
 
