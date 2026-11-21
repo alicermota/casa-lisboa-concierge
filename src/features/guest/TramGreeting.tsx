@@ -24,19 +24,19 @@ export function TramGreeting() {
     <div
       role="status"
       aria-label={MESSAGE}
-      className="relative max-w-sm rounded-[28px] border-[3px] px-6 py-5 shadow-xl transition-all duration-700"
+      className="relative max-w-[280px] rounded-2xl border px-5 py-4 shadow-lg transition-all duration-700"
       style={{
         backgroundColor: t.card, backgroundImage: paper, borderColor: t.plum, color: t.ink,
-        opacity: visible ? 1 : 0, transform: visible ? "translateY(0) scale(1) rotate(-1deg)" : "translateY(12px) scale(0.9) rotate(-1deg)",
+        opacity: visible ? 1 : 0, transform: visible ? "translateY(0) scale(1) rotate(0deg)" : "translateY(12px) scale(0.9) rotate(0deg)",
       }}
     >
-      <p aria-hidden className="min-h-[3.5rem] text-lg leading-snug md:text-xl" style={{ fontFamily: "Fraunces, serif" }}>
+      <p aria-hidden className="min-h-[3rem] text-base leading-snug" style={{ fontFamily: "Fraunces, serif" }}>
         {shown}
         {shown.length < MESSAGE.length && visible && <span className="animate-pulse">|</span>}
       </p>
       <span
         aria-hidden
-        className="absolute -bottom-[14px] left-10 h-6 w-6 rotate-45 border-b-[3px] border-r-[3px]"
+        className="absolute -bottom-[9px] left-10 h-4 w-4 rotate-45 border-b border-r"
         style={{ backgroundColor: t.card, borderColor: t.plum }}
       />
     </div>

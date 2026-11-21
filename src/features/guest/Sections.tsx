@@ -5,26 +5,32 @@ import { EXTRAS_DISPLAY, GOOD_TO_KNOW, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "./si
 const ICONS: Record<string, LucideIcon> = { Baby, Bike, CalendarCheck, Car, Clock, Coffee, DoorOpen, KeyRound, Moon, ParkingSquare, Wine };
 const serif = { fontFamily: "Fraunces, serif" } as const;
 const num = { fontVariantNumeric: "tabular-nums" } as const;
+const muted = `${t.ink}99`;
+const rule = `${t.plum}1f`;
 
-function Eyebrow({ children }: { children: string }) {
-  return <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "#C9573A" }}>{children}</p>;
+function Heading({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="mb-14">
+      <p className="text-xs uppercase tracking-[0.3em]" style={{ color: `${t.ink}77` }}>{eyebrow}</p>
+      <h2 className="mt-4 text-4xl font-light md:text-5xl" style={{ ...serif, color: t.plum }}>{title}</h2>
+    </div>
+  );
 }
 
 export function Intro() {
   return (
-    <section className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
-      <Eyebrow>Welcome</Eyebrow>
-      <h2 className="text-4xl md:text-6xl" style={{ ...serif, color: t.plum }}>A home in the rhythm of the city</h2>
-      <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed md:text-xl" style={{ color: `${t.ink}cc` }}>
-        Behind a tiled 19th-century façade in central Lisbon, we restored an old family house into 24 rooms with
-        high ceilings, wooden floors and windows that open onto the trams below. Since then, guests from more than
-        40 countries have made it their Lisbon address.
+    <section className="mx-auto max-w-3xl px-6 py-28 text-center">
+      <p className="text-xs uppercase tracking-[0.3em]" style={{ color: `${t.ink}77` }}>The house</p>
+      <h2 className="mt-4 text-4xl font-light md:text-5xl" style={{ ...serif, color: t.plum }}>A home in the rhythm of the city</h2>
+      <p className="mx-auto mt-8 text-lg leading-relaxed" style={{ color: `${t.ink}bb` }}>
+        A restored 19th-century building in the heart of Lisbon, with high ceilings, wooden floors and tall windows.
+        Twenty-four rooms, and guests from more than forty countries who come back for the quiet in the middle of it all.
       </p>
-      <div className="mt-12 flex justify-center gap-12" style={num}>
-        {[["24", "rooms"], ["40+", "countries"], ["1890s", "building"]].map(([n, l]) => (
+      <div className="mx-auto mt-14 flex max-w-md justify-between border-t pt-8" style={{ borderColor: rule, ...num }}>
+        {[["24", "Rooms"], ["40+", "Countries"], ["19th c.", "Building"]].map(([n, l]) => (
           <div key={l}>
-            <p className="text-4xl" style={{ ...serif, color: t.plum }}>{n}</p>
-            <p className="mt-1 text-sm" style={{ color: `${t.ink}99` }}>{l}</p>
+            <p className="text-3xl font-light" style={{ ...serif, color: t.plum }}>{n}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: muted }}>{l}</p>
           </div>
         ))}
       </div>
@@ -35,43 +41,40 @@ export function Intro() {
 export function Rooms() {
   return (
     <section id="rooms" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12">
-      <Eyebrow>Rooms</Eyebrow>
-      <h2 className="text-4xl md:text-5xl" style={{ ...serif, color: t.plum }}>Four ways to stay</h2>
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <Heading eyebrow="Rooms" title="Four ways to stay" />
+      <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
         {ROOMS_DISPLAY.map((r) => (
-          <article key={r.name} className="overflow-hidden rounded-2xl shadow-sm" style={{ backgroundColor: t.card }}>
-            <img src={r.image} alt={r.name} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-            <div className="p-6">
-              <h3 className="text-2xl" style={{ ...serif, color: t.plum }}>{r.name}</h3>
-              <p className="mt-2 text-sm" style={{ color: `${t.ink}99`, ...num }}>{r.size} m² · {r.feature}</p>
-              <p className="mt-5 text-sm" style={{ color: `${t.ink}99` }}>
-                from <span className="text-2xl font-semibold" style={{ color: t.ink, ...num }}>€{r.from}</span> / night
+          <article key={r.name}>
+            <img src={r.image} alt={r.name} loading="lazy" className="aspect-[3/4] w-full rounded-2xl object-cover" />
+            <h3 className="mt-6 text-xl" style={{ ...serif, color: t.plum }}>{r.name}</h3>
+            <p className="mt-1 text-sm" style={{ color: muted, ...num }}>{r.size} m² · {r.feature}</p>
+            <div className="mt-4 flex items-baseline justify-between border-t pt-4" style={{ borderColor: rule }}>
+              <p className="text-sm" style={{ color: muted }}>
+                from <span className="text-lg" style={{ color: t.ink, ...num }}>€{r.from}</span>
               </p>
-              <p className="mt-1 text-xs" style={{ color: "#3F6212" }}>Breakfast included</p>
+              <p className="text-xs" style={{ color: muted }}>Breakfast included</p>
             </div>
           </article>
         ))}
       </div>
-      <p className="mt-6 text-sm" style={{ color: `${t.ink}88` }}>Prices from November to March. April to October +20%.</p>
+      <p className="mt-12 text-xs" style={{ color: `${t.ink}77` }}>Per night, November to March. April to October +20%.</p>
     </section>
   );
 }
 
 export function Rooftop() {
   return (
-    <section id="rooftop" className="scroll-mt-20 px-6 py-12 md:px-12">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl">
-        <img src={ROOFTOP_IMAGE} alt="Rooftop bar at sunset" loading="lazy" className="h-[520px] w-full object-cover" />
-        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${t.plumDeep}f0 0%, ${t.plumDeep}99 45%, transparent 80%)` }} />
-        <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-16" style={{ color: t.card }}>
-          <Eyebrow>The rooftop</Eyebrow>
-          <h2 className="max-w-md text-4xl md:text-5xl" style={serif}>Sunset over the Tagus</h2>
-          <p className="mt-6 max-w-md text-lg opacity-90">Our rooftop bar looks out over the river and the red roofs of the old town.</p>
-          <p className="mt-4 text-lg font-semibold" style={{ color: t.amber, ...num }}>Open daily 17:00–24:00</p>
-          <p className="mt-6 inline-block max-w-max rounded-2xl px-5 py-3 text-sm font-semibold" style={{ backgroundColor: t.amber, color: t.plumDeep }}>
-            Book direct and your welcome drink is on us
-          </p>
-        </div>
+    <section id="rooftop" className="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-12 px-6 py-24 md:grid-cols-2 md:px-12">
+      <img src={ROOFTOP_IMAGE} alt="The rooftop bar" loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+      <div className="md:pl-8">
+        <Heading eyebrow="The rooftop" title="Evenings above the river" />
+        <p className="-mt-6 text-lg leading-relaxed" style={{ color: `${t.ink}bb` }}>
+          Our bar looks out over the Tagus and the roofs of the old town. Come up for the last light, stay for one more glass.
+        </p>
+        <dl className="mt-10 space-y-4 border-t pt-6 text-sm" style={{ borderColor: rule }}>
+          <div className="flex justify-between"><dt style={{ color: muted }}>Open daily</dt><dd style={num}>17:00 – 24:00</dd></div>
+          <div className="flex justify-between"><dt style={{ color: muted }}>Booking direct</dt><dd>Welcome drink on us</dd></div>
+        </dl>
       </div>
     </section>
   );
@@ -79,49 +82,45 @@ export function Rooftop() {
 
 export function Extras() {
   return (
-    <section id="extras" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12">
-      <Eyebrow>Little extras</Eyebrow>
-      <h2 className="text-4xl md:text-5xl" style={{ ...serif, color: t.plum }}>Make it yours</h2>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <section id="extras" className="mx-auto max-w-4xl scroll-mt-20 px-6 py-24">
+      <Heading eyebrow="Little extras" title="Small touches" />
+      <ul className="border-t" style={{ borderColor: rule }}>
         {EXTRAS_DISPLAY.map((e) => {
           const Icon = ICONS[e.icon] ?? Wine;
           return (
-            <div key={e.name} className="rounded-2xl p-6" style={{ backgroundColor: t.card }}>
-              <span className="flex h-12 w-12 items-center justify-center rounded-full" style={{ backgroundColor: `${t.amber}33`, color: t.plum }}>
-                <Icon size={22} />
-              </span>
-              <h3 className="mt-5 text-lg font-semibold" style={{ color: t.ink }}>{e.name}</h3>
-              <p className="mt-1 text-sm" style={{ color: `${t.ink}99` }}>{e.note}</p>
-              <p className="mt-4 text-xl" style={{ ...serif, color: t.plum, ...num }}>{e.price}</p>
-            </div>
+            <li key={e.name} className="flex items-center gap-6 border-b py-6" style={{ borderColor: rule }}>
+              <Icon size={20} strokeWidth={1.5} style={{ color: t.plum }} className="shrink-0" />
+              <div className="flex-1">
+                <p className="text-lg" style={{ ...serif, color: t.ink }}>{e.name}</p>
+                <p className="text-sm" style={{ color: muted }}>{e.note}</p>
+              </div>
+              <p className="text-sm" style={{ color: t.ink, ...num }}>{e.price}</p>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </section>
   );
 }
 
 export function GoodToKnow() {
   return (
-    <section id="good-to-know" className="scroll-mt-20 px-6 py-24 md:px-12" style={{ backgroundColor: `${t.card}aa` }}>
-      <div className="mx-auto max-w-6xl">
-        <Eyebrow>Good to know</Eyebrow>
-        <h2 className="text-4xl md:text-5xl" style={{ ...serif, color: t.plum }}>The practical bits</h2>
-        <dl className="mt-12 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {GOOD_TO_KNOW.map((g) => {
-            const Icon = ICONS[g.icon] ?? Clock;
-            return (
-              <div key={g.label} className="flex gap-4">
-                <Icon size={22} className="mt-1 shrink-0" style={{ color: t.plum }} />
-                <div>
-                  <dt className="font-semibold" style={{ color: t.ink }}>{g.label}</dt>
-                  <dd className="mt-1" style={{ color: `${t.ink}aa`, ...num }}>{g.value}</dd>
-                </div>
+    <section id="good-to-know" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12">
+      <Heading eyebrow="Good to know" title="The practical bits" />
+      <dl className="grid gap-x-16 border-t sm:grid-cols-2 lg:grid-cols-3" style={{ borderColor: rule }}>
+        {GOOD_TO_KNOW.map((g) => {
+          const Icon = ICONS[g.icon] ?? Clock;
+          return (
+            <div key={g.label} className="flex gap-4 border-b py-6" style={{ borderColor: rule }}>
+              <Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0" style={{ color: t.plum }} />
+              <div>
+                <dt className="text-sm" style={{ color: t.ink }}>{g.label}</dt>
+                <dd className="mt-1 text-sm" style={{ color: muted, ...num }}>{g.value}</dd>
               </div>
-            );
-          })}
-        </dl>
-      </div>
+            </div>
+          );
+        })}
+      </dl>
     </section>
   );
 }

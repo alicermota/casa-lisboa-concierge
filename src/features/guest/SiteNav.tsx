@@ -15,7 +15,7 @@ export function SiteNav() {
             <button key={id} onClick={() => go(id)} className="transition-opacity hover:opacity-60">{l}</button>
           ))}
         </div>
-        <button onClick={() => go("concierge")} className="rounded-2xl px-4 py-2 text-sm font-semibold" style={{ backgroundColor: t.plum, color: t.card }}>
+        <button onClick={() => go("concierge")} className="rounded-full border px-4 py-1.5 text-sm" style={{ borderColor: t.plum, color: t.plum }}>
           Talk to us
         </button>
       </div>

@@ -29,14 +29,14 @@ export function ConciergeMicButton({ compact = false }: { compact?: boolean }) {
     <button
       onClick={activate}
       aria-pressed={isActive}
-      className="group flex items-center gap-3 rounded-full border-2 py-3 pl-3 pr-6 text-lg font-semibold shadow-xl transition-transform hover:-translate-y-0.5"
-      style={{ backgroundColor: t.card, color: t.plum, borderColor: t.plum }}
+      className="group flex items-center gap-3 rounded-full py-2 pl-2 pr-6 text-sm font-medium transition-opacity hover:opacity-90"
+      style={{ backgroundColor: t.plum, color: t.card }}
     >
       <span
-        className={`flex h-11 w-11 items-center justify-center rounded-full ${isActive ? "animate-pulse" : ""}`}
-        style={{ backgroundColor: isActive ? t.amber : t.plum, color: isActive ? t.plumDeep : t.card }}
+        className={`flex h-9 w-9 items-center justify-center rounded-full ${isActive ? "animate-pulse" : ""}`}
+        style={{ backgroundColor: isActive ? t.amber : `${t.card}22`, color: isActive ? t.plumDeep : t.card }}
       >
-        <MicIcon />
+        <MicIcon size={18} />
       </span>
       {isActive ? "Concierge is getting ready…" : "Talk to our concierge"}
     </button>
