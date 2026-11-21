@@ -130,9 +130,18 @@ let player: FadoPlayer | null = null;
 export const fado = () => (player ??= new FadoPlayer());
 
 /**
- * Real track first: public/audio/fado.mp3 (e.g. an instrumental generated with ElevenLabs Music).
- * If the file isn't there, falls back to the generated guitar loop above.
+ * Real recording: "Tic Tac Fado" (instrumental), composed by Dr. Walter E. Strahm, played by Fado Orchester Celestino
+ * (Odemira, Portugal), © SWINTI GmbH. Licensed CC BY-SA 3.0 / GFDL via Wikimedia Commons:
+ * https://commons.wikimedia.org/wiki/File:Tic_Tac_Fado_Instrumental.ogg
+ * Streams the Commons MP3 transcode. If it can't play, falls back to the generated guitar loop above.
  */
+export const FADO_CREDIT = {
+  title: "Tic Tac Fado",
+  by: "Fado Orchester Celestino · comp. W. E. Strahm",
+  license: "CC BY-SA 3.0",
+  url: "https://commons.wikimedia.org/wiki/File:Tic_Tac_Fado_Instrumental.ogg",
+};
+const FADO_SRC = "https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e2/Tic_Tac_Fado_Instrumental.ogg/Tic_Tac_Fado_Instrumental.ogg.mp3";
 class FadoTrack {
   private audio: HTMLAudioElement | null = null;
   private fallback = false;
@@ -145,7 +154,8 @@ class FadoTrack {
       return;
     }
     if (!this.audio) {
-      this.audio = new Audio("/audio/fado.mp3");
+      this.audio = new Audio(FADO_SRC);
+      this.audio.preload = "auto";
       this.audio.loop = true;
       this.audio.volume = 0;
     }
