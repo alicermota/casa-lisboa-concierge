@@ -61,10 +61,10 @@ const WELCOMES = ["bem-vindo", "welcome", "bienvenue", "willkommen", "benvenuto"
 export function WelcomeMarquee() {
   const items = [...WELCOMES, ...WELCOMES];
   return (
-    <div className="az-marquee overflow-hidden border-y py-5" style={{ borderColor: az.rule, backgroundColor: az.paper }}>
+    <div className="az-marquee overflow-hidden border-y py-5" style={{ borderColor: az.rule, backgroundColor: az.glaze }}>
       <div className="az-marquee-track">
         {items.map((w, i) => (
-          <span key={i} className="flex items-center gap-8 pr-8 text-2xl italic md:text-3xl" style={{ ...serif, color: az.cobalt }}>
+          <span key={i} className="flex items-center gap-8 pr-8 text-2xl md:text-3xl" style={{ ...serif, color: az.ink }}>
             {w}
             <span className="inline-block h-6 w-6 shrink-0">
               <Tile pattern={pat(i)} className="h-full w-full" />
@@ -94,5 +94,47 @@ export function TileWall({ cols = 10, rows = 6, style }: { cols?: number; rows?:
         );
       })}
     </div>
+  );
+}
+
+/** Giant grey repeating section title that slides as you scroll in (tile.pt "what we do what we do"). */
+export function GhostTitle({ text }: { text: string }) {
+  const items = Array.from({ length: 6 }, () => text);
+  return (
+    <div className="az-marquee pointer-events-none select-none overflow-hidden" aria-hidden>
+      <div className="az-marquee-track az-ghost-track">
+        {[...items, ...items].map((t, i) => (
+          <span key={i} className="whitespace-nowrap pr-[0.5em] text-[18vw] leading-[0.9] md:text-[11vw]" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif', fontWeight: 600, letterSpacing: "-0.03em", color: "#EBEBEB" }}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Headline whose words come into focus one by one when scrolled into view. */
+export function ScrollWords({ parts, className = "", style }: { parts: (string | ReactNode)[]; className?: string; style?: CSSProperties }) {
+  const { ref, inView } = useInView<HTMLHeadingElement>(0.4);
+  let i = 0;
+  return (
+    <h2 ref={ref} className={`az-words ${inView ? "is-in" : ""} ${className}`} style={style}>
+      {parts.map((p, k) =>
+        typeof p === "string" ? (
+          p
+            .split(" ")
+            .filter(Boolean)
+            .map((w) => (
+              <span key={`${k}-${i}`} className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
+                {w}
+              </span>
+            ))
+        ) : (
+          <span key={`${k}-${i}`} className="w" style={{ animationDelay: `${i++ * 60}ms` }}>
+            {p}
+          </span>
+        ),
+      )}
+    </h2>
   );
 }

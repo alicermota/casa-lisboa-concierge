@@ -43,7 +43,7 @@
 .az-drift { animation: az-drift 24s ease-in-out infinite alternate; }
 
 /* night tiles glowing in the concierge section */
-@keyframes az-glow { 0%, 100% { opacity: 0.08; } 50% { opacity: 0.22; } }
+@keyframes az-glow { 0%, 100% { opacity: 0.04; } 50% { opacity: 0.12; } }
 .az-glow { animation: az-glow 6s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -81,3 +81,9 @@
 @keyframes az-word { from { opacity: 0; transform: translateY(0.4em); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
 .az-word { display: inline-block; opacity: 0; animation: az-word 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
 @media (prefers-reduced-motion: reduce) { .az-word { animation: none; opacity: 1; } }
+
+/* scroll word reveal (blur to sharp) */
+.az-words .w { display: inline-block; margin-right: 0.24em; opacity: 0; filter: blur(10px); transform: translateY(0.25em); }
+.az-words.is-in .w { animation: az-word 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.az-ghost-track { animation-duration: 60s; }
+@media (prefers-reduced-motion: reduce) { .az-words .w { opacity: 1; filter: none; transform: none; } }

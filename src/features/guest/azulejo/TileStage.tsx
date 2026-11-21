@@ -60,7 +60,7 @@ function Slot({ filled, i, children, wide = false }: { filled: boolean; i: numbe
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-[10px] tracking-[0.25em]" style={{ color: az.cobalt }}>{children}</p>;
+  return <p className="text-xs" style={{ color: az.cobalt }}>{children}</p>;
 }
 
 export function TileStage({ events }: { events: ShowEvent[] }) {
@@ -135,7 +135,7 @@ export function TileStage({ events }: { events: ShowEvent[] }) {
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="az-stamp rounded-sm border-4 px-6 py-3 text-center" style={{ borderColor: az.cobalt, color: az.cobalt, backgroundColor: `${az.glaze}ee` }}>
             <p className="text-2xl" style={serif}>enviado ✓</p>
-            <p className="text-[10px] tracking-[0.25em]">sent to the team · reply by 10:00</p>
+            <p className="text-xs">sent to the team · reply by 10:00</p>
           </div>
         </div>
       )}

@@ -1,22 +1,25 @@
 import { Baby, Bike, CalendarCheck, Car, Clock, Coffee, DoorOpen, KeyRound, Moon, ParkingSquare, Wine, Music, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { az, num, scrollToId, serif } from "./palette";
-import { GlazeImage, Reveal, TileStrip } from "./Motion";
+import { GhostTitle, GlazeImage, Reveal, ScrollWords, TileStrip } from "./Motion";
 import { Tile, pat, rotOf } from "./Tile";
 import { EXTRAS_DISPLAY, GOOD_TO_KNOW, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "../siteContent";
 
 const ICONS: Record<string, LucideIcon> = { Baby, Bike, CalendarCheck, Car, Clock, Coffee, DoorOpen, KeyRound, Moon, ParkingSquare, Wine };
 
-function Heading({ eyebrow, title, light = false }: { eyebrow: string; title: ReactNode; light?: boolean }) {
+function Heading({ eyebrow, title, light = false, ghost }: { eyebrow: string; title: (string | ReactNode)[]; light?: boolean; ghost?: string }) {
   return (
-    <Reveal className="mb-14">
-      <p className="text-xs lowercase tracking-[0.3em]" style={{ color: light ? `${az.wash}aa` : az.cobalt }}>
+    <div className="mb-14">
+      {ghost && (
+        <div className="relative left-1/2 mb-8 w-screen -translate-x-1/2">
+          <GhostTitle text={ghost} />
+        </div>
+      )}
+      <p className="text-sm" style={{ color: light ? `${az.wash}aa` : az.cobalt }}>
         {eyebrow}
       </p>
-      <h2 className="mt-4 text-4xl font-light leading-tight md:text-6xl" style={{ ...serif, color: light ? az.glaze : az.ink }}>
-        {title}
-      </h2>
-    </Reveal>
+      <ScrollWords parts={title} className="mt-3 text-4xl leading-[1.05] md:text-6xl" style={{ ...serif, color: light ? az.glaze : az.ink }} />
+    </div>
   );
 }
 
@@ -25,7 +28,7 @@ export function Intro() {
     <section id="hotel" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
       <div className="grid items-center gap-16 md:grid-cols-[1.1fr_1fr]">
         <div>
-          <Heading eyebrow="the house." title={<>a home in the <em className="italic" style={{ color: az.cobalt }}>rhythm</em> of the city</>} />
+          <Heading eyebrow="the house." title={["a home in the", <em key="e" style={{ color: az.cobalt }}>rhythm</em>, "of the city"]} />
           <Reveal delay={150}>
             <p className="-mt-4 max-w-lg text-lg leading-relaxed" style={{ color: az.muted }}>
               A restored 19th-century building in the heart of Lisbon, with high ceilings, wooden floors and tall windows. Twenty-four rooms,
@@ -60,7 +63,7 @@ export function Rooms() {
   return (
     <section id="rooms" className="scroll-mt-20 py-24" style={{ backgroundColor: az.paper }}>
       <div className="mx-auto max-w-6xl px-6 md:px-12">
-        <Heading eyebrow="rooms & suites." title="four ways to stay" />
+        <Heading ghost="rooms" eyebrow="rooms & suites." title={["four ways to", <em key="e">stay</em>]} />
         <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
           {ROOMS_DISPLAY.map((r, i) => (
             <Reveal key={r.name} delay={i * 120}>
@@ -96,7 +99,7 @@ export function Rooftop() {
     <section id="rooftop" className="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-14 px-6 py-28 md:grid-cols-2 md:px-12">
       <GlazeImage src={ROOFTOP_IMAGE} alt="The rooftop bar" className="aspect-[4/5] w-full rounded-sm" />
       <div>
-        <Heading eyebrow="the rooftop." title={<>evenings <em className="italic" style={{ color: az.cobalt }}>above</em> the river</>} />
+        <Heading eyebrow="the rooftop." title={["evenings", <em key="e" style={{ color: az.cobalt }}>above</em>, "the river"]} />
         <Reveal delay={150}>
           <p className="-mt-4 text-lg leading-relaxed" style={{ color: az.muted }}>
             Our bar looks out over the Tagus and the roofs of the old town. Come up for the last light, stay for one more glass.
@@ -115,7 +118,7 @@ export function Extras() {
   return (
     <section id="extras" className="scroll-mt-20 py-24" style={{ backgroundColor: az.paper }}>
       <div className="mx-auto max-w-6xl px-6 md:px-12">
-        <Heading eyebrow="little extras." title="small touches, big memories" />
+        <Heading ghost="extras" eyebrow="little extras." title={["small touches,", <em key="e">big</em>, "memories"]} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
           {EXTRAS_DISPLAY.map((e, i) => {
             const Icon = ICONS[e.icon] ?? Wine;
@@ -152,7 +155,7 @@ const LISBON = [
 export function LisbonRecommendations() {
   return (
     <section id="lisbon" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
-      <Heading eyebrow="our lisbon." title="little city rituals, curated by the team" />
+      <Heading ghost="our lisbon" eyebrow="our lisbon." title={["little city", <em key="e">rituals,</em>, "curated by the team"]} />
       <div className="grid gap-12 md:grid-cols-3">
         {LISBON.map((g, gi) => (
           <Reveal key={g.group} delay={gi * 120}>
@@ -175,7 +178,7 @@ export function LisbonRecommendations() {
 export function GoodToKnow() {
   return (
     <section id="good-to-know" className="mx-auto max-w-6xl scroll-mt-20 px-6 pb-28 md:px-12">
-      <Heading eyebrow="good to know." title="the practical bits" />
+      <Heading eyebrow="good to know." title={["the", <em key="e">practical</em>, "bits"]} />
       <dl className="grid gap-x-16 border-t sm:grid-cols-2 lg:grid-cols-3" style={{ borderColor: az.rule }}>
         {GOOD_TO_KNOW.map((g, i) => {
           const Icon = ICONS[g.icon] ?? Clock;
