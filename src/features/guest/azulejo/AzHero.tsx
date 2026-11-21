@@ -153,7 +153,7 @@ export function AzHero() {
           casa lisboa · boutique hotel · baixa, lisbon
         </p>
         <h1 className="mt-5 max-w-2xl text-5xl leading-[1.02] md:text-7xl" style={{ ...display, color: az.ink, fontWeight: 400 }}>
-          <Words start={2}>{["24 rooms in lisbon.", "a concierge that", <em key="e" style={{ color: az.cobalt }}>never</em>, "sleeps."]}</Words>
+          <Words start={2}>{["book your lisbon stay by", <em key="e" style={{ color: az.cobalt }}>talking</em>, "to us.", "any hour."]}</Words>
         </h1>
         <p className="az-word mt-6 max-w-md text-lg" style={{ animationDelay: "900ms", color: az.muted, display: "block" }}>
           Ask about rooms, prices or the city. Out loud, in your language, at any hour.
