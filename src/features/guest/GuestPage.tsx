@@ -6,7 +6,7 @@ import { useConciergeEntry } from "./useConciergeEntry";
 import { SiteNav } from "./SiteNav";
 import { Rooms, DiscoverHotel, LisbonRecommendations } from "./Sections";
 import { LayeredTram } from "./tram/LayeredTram";
-import { TramCompanion } from "./tram/TramCompanion";
+import { TramJourney, TramBand } from "./tram/TramJourney";
 
 const serif = { fontFamily: "Fraunces, serif" } as const;
 
@@ -24,37 +24,52 @@ export function GuestPage() {
     <div style={{ backgroundColor: t.bg, color: t.ink, fontFamily: "Inter, sans-serif" }}>
       <SiteNav />
 
-      <header id="hero" className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-24 pt-16 md:grid-cols-[5fr_6fr] md:px-12 md:pt-24">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em]" style={{ color: `${t.ink}88` }}>
-            Boutique hotel · Central Lisbon
-          </p>
-          <h1 className="mt-6 text-5xl font-light leading-[1.05] md:text-7xl" style={{ ...serif, color: t.plum }}>
-            Casa Lisboa
-          </h1>
-          <p className="mt-6 max-w-sm text-lg italic" style={{ ...serif, color: `${t.ink}bb` }}>
-            Lisbon never closes. Neither do we.
-          </p>
-          <div className="mt-10">
-            <ConciergeMicButton />
-            <p className="mt-3 text-xs" style={{ color: `${t.ink}77` }}>Day or night, even at 3am.</p>
+      <header id="hero" className="relative mx-auto max-w-7xl overflow-hidden px-6 pb-20 pt-12 md:px-12 lg:overflow-visible lg:pb-28 lg:pt-20">
+        <div className="pointer-events-none absolute inset-x-0 top-[55%] h-[45%]" aria-hidden
+          style={{ background: `radial-gradient(60% 70% at 70% 30%, ${t.amber}22, transparent 70%)` }} />
+        <div className="relative grid items-end lg:grid-cols-12">
+          <div className="relative z-10 lg:col-span-5 lg:pb-24">
+            <p className="text-xs uppercase tracking-[0.3em]" style={{ color: `${t.ink}88` }}>
+              Boutique hotel · Central Lisbon
+            </p>
+            <h1 className="mt-6 text-6xl font-light leading-[0.95] md:text-8xl lg:-mr-24" style={{ ...serif, color: t.plum }}>
+              Casa<br />Lisboa
+            </h1>
+            <p className="mt-6 max-w-sm text-lg italic" style={{ ...serif, color: `${t.ink}bb` }}>
+              Lisbon never closes. Neither do we.
+            </p>
+            <div className="mt-10">
+              <ConciergeMicButton />
+              <p className="mt-3 text-xs" style={{ color: `${t.ink}77` }}>Day or night, even at 3am.</p>
+            </div>
           </div>
-        </div>
 
-        <div className="relative pt-24">
-          <div className="absolute left-0 top-0 md:-left-6">
-            <TramGreeting />
+          <div className="relative mt-16 lg:col-span-7 lg:mt-0 lg:-mr-16">
+            <div className="absolute -top-4 right-[8%] z-20 lg:-top-10">
+              <TramGreeting />
+            </div>
+            <div className="relative pt-20">
+              <div id="tram-slot" className="tram-slot-static">
+                <LayeredTram sign={isActive ? "YOUR STAY" : "LISBOA"} glow={isActive} waveKey={waveKey} />
+              </div>
+              <div aria-hidden className="relative -mt-[3%] mx-[-4%]">
+                <div className="h-[3px] rounded-full" style={{ backgroundColor: `${t.ink}cc` }} />
+                <div className="mt-1 h-2" style={{ backgroundImage: `repeating-linear-gradient(90deg, ${t.ink}33 0 4px, transparent 4px 22px)` }} />
+              </div>
+            </div>
           </div>
-          <LayeredTram sign={isActive ? "YOUR STAY" : "LISBOA"} glow={isActive} waveKey={waveKey} />
-          <div className="mx-[4%] -mt-[2%] h-1 rounded-full" style={{ backgroundColor: t.ink, opacity: 0.8 }} />
         </div>
       </header>
 
-      <Rooms />
-      <DiscoverHotel />
-      <LisbonRecommendations />
+      <TramBand label="Rooms" />
+      <div className="tram-lane"><Rooms /></div>
+      <TramBand label="The Hotel" />
+      <div className="tram-lane"><DiscoverHotel /></div>
+      <TramBand label="Lisbon" />
+      <div className="tram-lane"><LisbonRecommendations /></div>
+      <TramBand label="Concierge" />
 
-      <section id="concierge" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
+      <div className="tram-lane"><section id="concierge" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
         <h2 className="text-4xl font-light md:text-5xl" style={{ ...serif, color: t.plum }}>It's late. We're still here.</h2>
         <div className="mt-14 grid gap-8 md:grid-cols-2">
           <div className="rounded-2xl p-10" style={{ backgroundColor: t.card }}>
@@ -71,12 +86,12 @@ export function GuestPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section></div>
 
       <footer className="border-t px-6 py-10 text-center text-xs tracking-wide" style={{ color: `${t.ink}88`, borderColor: `${t.plum}1a` }}>
         Illustration by [artist], used with permission · Fictional hotel, hackathon prototype
       </footer>
-      <TramCompanion />
+      <TramJourney />
     </div>
   );
 }

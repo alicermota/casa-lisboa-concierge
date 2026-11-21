@@ -29,4 +29,4 @@ use the editor.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
 
-- The tram is layered (warm interior fill, driver, front panel with see-through windows, separate wheels) in `src/features/guest/tram/`; the scroll companion uses plain CSS transforms and a scroll listener, with no pinning or GSAP, and switches off with one flag in `tram/config.ts`. Why: page content and scrolling never depend on the animation.
+- The tram is layered (painted interior, driver, front panel with see-through windows, wheels, pole) in `src/features/guest/tram/`, all on the side-panel canvas. On wide screens one fixed tram follows scroll via GSAP ScrollTrigger from the hero slot down a left lane (sections wrapped in `.tram-lane` reserve the space); narrower screens and reduced motion use in-flow rail strips instead. One flag in `tram/config.ts` turns it off. Why: the tram never covers content and the page works without it.
