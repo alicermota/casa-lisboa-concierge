@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { DeskPreview } from "@/features/desk/DeskPreview";
+import { DeskPage } from "@/features/desk/DeskPage";
 
 export const Route = createFileRoute("/desk")({
   ssr: false,
@@ -10,5 +10,5 @@ export const Route = createFileRoute("/desk")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: DeskPreview,
+  component: DeskPage,
 });
