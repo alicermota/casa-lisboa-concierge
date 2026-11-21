@@ -4,7 +4,7 @@ import { az, num, serif } from "./palette";
 import { Frieze, GhostTitle, Reveal, ScrollWords, TileCorners, TileStrip } from "./Motion";
 import { Tile, rotOf, pat } from "./Tile";
 import { EXTRAS_DISPLAY, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "../siteContent";
-import { fado } from "./fado";
+import { fadoTrack as fado } from "./fado";
 
 const ICONS: Record<string, LucideIcon> = { Baby, Bike, Car, Clock, Wine };
 
@@ -285,7 +285,7 @@ function FadoButton() {
       </span>
       <span>
         <span className="block text-sm" style={{ color: on ? "#fff" : undefined }}>{on ? "playing: fado for the road" : "fado for the road"}</span>
-        <span className="text-xs opacity-70">{on ? "tap to pause" : "an original guitar loop, press play"}</span>
+        <span className="text-xs opacity-70">{on ? "tap to pause" : "portuguese guitar, press play"}</span>
       </span>
     </button>
   );

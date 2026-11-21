@@ -128,3 +128,58 @@ export class FadoPlayer {
 
 let player: FadoPlayer | null = null;
 export const fado = () => (player ??= new FadoPlayer());
+
+/**
+ * Real track first: public/audio/fado.mp3 (e.g. an instrumental generated with ElevenLabs Music).
+ * If the file isn't there, falls back to the generated guitar loop above.
+ */
+class FadoTrack {
+  private audio: HTMLAudioElement | null = null;
+  private fallback = false;
+  playing = false;
+
+  async start() {
+    if (this.fallback) {
+      await fado().start();
+      this.playing = true;
+      return;
+    }
+    if (!this.audio) {
+      this.audio = new Audio("/audio/fado.mp3");
+      this.audio.loop = true;
+      this.audio.volume = 0;
+    }
+    try {
+      await this.audio.play();
+      this.playing = true;
+      const a = this.audio;
+      let v = 0;
+      const id = window.setInterval(() => {
+        v = Math.min(0.7, v + 0.05);
+        a.volume = v;
+        if (v >= 0.7) window.clearInterval(id);
+      }, 60);
+    } catch {
+      this.fallback = true; // no file (or blocked): use the generated loop
+      await fado().start();
+      this.playing = true;
+    }
+  }
+
+  stop() {
+    if (this.fallback) fado().stop();
+    const a = this.audio;
+    if (a && !a.paused) {
+      const id = window.setInterval(() => {
+        a.volume = Math.max(0, a.volume - 0.07);
+        if (a.volume <= 0) {
+          a.pause();
+          window.clearInterval(id);
+        }
+      }, 50);
+    }
+    this.playing = false;
+  }
+}
+let track: FadoTrack | null = null;
+export const fadoTrack = () => (track ??= new FadoTrack());
