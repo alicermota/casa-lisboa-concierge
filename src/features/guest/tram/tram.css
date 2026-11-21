@@ -23,3 +23,8 @@ html[data-tram-journey="on"] .tram-slot-static { visibility: hidden; }
 @media (min-width: 1024px) {
   html[data-tram-journey="on"] .tram-lane { padding-left: 300px; }
 }
+html[data-tram3d="on"] .tram-slot-static { visibility: hidden; }
+@media (min-width: 1024px) {
+  html[data-tram3d="on"] .tram-lane { padding-left: 300px; }
+  html[data-tram3d="on"] .tram-lane.tram-lane-r { padding-left: 0; padding-right: 300px; }
+}

@@ -6,7 +6,8 @@ import { useConciergeEntry } from "./useConciergeEntry";
 import { SiteNav } from "./SiteNav";
 import { Rooms, DiscoverHotel, LisbonRecommendations } from "./Sections";
 import { LayeredTram } from "./tram/LayeredTram";
-import { TramJourney, TramBand } from "./tram/TramJourney";
+import { TramBand } from "./tram/TramJourney";
+import { Tram3DGate } from "./tram3d/Tram3DGate";
 
 const serif = { fontFamily: "Fraunces, serif" } as const;
 
@@ -64,12 +65,12 @@ export function GuestPage() {
       <TramBand label="Rooms" />
       <div className="tram-lane"><Rooms /></div>
       <TramBand label="The Hotel" />
-      <div className="tram-lane"><DiscoverHotel /></div>
+      <div className="tram-lane tram-lane-r"><DiscoverHotel /></div>
       <TramBand label="Lisbon" />
       <div className="tram-lane"><LisbonRecommendations /></div>
       <TramBand label="Concierge" />
 
-      <div className="tram-lane"><section id="concierge" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
+      <div className="tram-lane tram-lane-r"><section id="concierge" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-28 md:px-12">
         <h2 className="text-4xl font-light md:text-5xl" style={{ ...serif, color: t.plum }}>It's late. We're still here.</h2>
         <div className="mt-14 grid gap-8 md:grid-cols-2">
           <div className="rounded-2xl p-10" style={{ backgroundColor: t.card }}>
@@ -91,7 +92,7 @@ export function GuestPage() {
       <footer className="border-t px-6 py-10 text-center text-xs tracking-wide" style={{ color: `${t.ink}88`, borderColor: `${t.plum}1a` }}>
         Illustration by [artist], used with permission · Fictional hotel, hackathon prototype
       </footer>
-      <TramJourney />
+      <Tram3DGate />
     </div>
   );
 }
