@@ -1,7 +1,7 @@
 import { Baby, Bike, Car, Clock, Wine, Music, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { az, num, serif } from "./palette";
-import { GhostTitle, GlazeImage, Reveal, ScrollWords, TileStrip } from "./Motion";
+import { GhostTitle, Reveal, ScrollWords, TileStrip } from "./Motion";
 import { Tile, rotOf, pat } from "./Tile";
 import { EXTRAS_DISPLAY, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "../siteContent";
 
@@ -55,28 +55,35 @@ export function Intro() {
 
 export function Rooms() {
   return (
-    <section id="rooms" className="scroll-mt-24 pb-20 pt-6" style={{ backgroundColor: az.paper }}>
+    <section id="rooms" className="scroll-mt-24 py-20" style={{ backgroundColor: az.paper }}>
       <div className="mx-auto max-w-6xl px-6 md:px-12">
-        <Heading ghost="quartos" eyebrow="rooms" title={["four rooms.", "pick a", <em key="e">view.</em>]} />
-        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <Heading eyebrow="rooms" title={["four rooms.", "pick a", <em key="e">view.</em>]} />
+          <p className="mb-10 text-sm" style={{ color: az.muted }}>per night, breakfast included · Apr–Oct +20%</p>
+        </div>
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {ROOMS_DISPLAY.map((r, i) => (
-            <Reveal key={r.name} delay={i * 100}>
-              <article className="group">
-                <div className="relative">
-                  <GlazeImage src={r.image} alt={r.name} className="aspect-[4/5] w-full rounded-t-[999px]" />
-                  <div className="absolute -bottom-4 left-1/2 h-8 w-8 -translate-x-1/2 overflow-hidden rounded-sm shadow-md transition-transform duration-500 group-hover:rotate-90">
+            <Reveal key={r.name} delay={i * 80}>
+              <article className="group overflow-hidden rounded-xl bg-white shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-shadow hover:shadow-[0_20px_40px_-24px_rgba(0,26,115,0.4)]">
+                <div className="relative aspect-[3/2] overflow-hidden" style={{ backgroundColor: az.wash }}>
+                  <img src={r.image} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute right-2 top-2 h-7 w-7 overflow-hidden rounded-[4px] transition-transform duration-500 group-hover:rotate-90">
                     <Tile pattern={pat(i + 1)} className="h-full w-full" />
                   </div>
                 </div>
-                <h3 className="mt-8 text-center text-xl" style={{ ...serif, color: az.ink }}>{r.name}</h3>
-                <p className="mt-1 text-center text-sm" style={{ color: az.muted, ...num }}>
-                  {r.size} m² · {r.feature.toLowerCase()} · from <span style={{ color: az.cobalt }}>€{r.from}</span>
-                </p>
+                <div className="flex items-baseline justify-between gap-2 p-4">
+                  <div>
+                    <h3 className="text-lg leading-tight" style={{ ...serif, color: az.ink }}>{r.name}</h3>
+                    <p className="text-xs" style={{ color: az.muted, ...num }}>{r.size} m² · {r.feature.toLowerCase()}</p>
+                  </div>
+                  <p className="text-right text-sm" style={{ color: az.muted, ...num }}>
+                    <span className="text-lg" style={{ ...serif, color: az.cobalt }}>€{r.from}</span>
+                  </p>
+                </div>
               </article>
             </Reveal>
           ))}
         </div>
-        <p className="mt-10 text-xs" style={{ color: az.muted }}>Per night, breakfast included. Nov–Mar; Apr–Oct +20%.</p>
       </div>
     </section>
   );
@@ -84,15 +91,15 @@ export function Rooms() {
 
 export function Rooftop() {
   return (
-    <section id="rooftop" className="mx-auto grid max-w-6xl scroll-mt-24 items-center gap-12 px-6 py-20 md:grid-cols-2 md:px-12">
-      <GlazeImage src={ROOFTOP_IMAGE} alt="The rooftop bar" className="aspect-[4/3] w-full rounded-sm" />
+    <section id="rooftop" className="mx-auto grid max-w-6xl scroll-mt-24 items-center gap-10 px-6 py-16 md:grid-cols-2 md:px-12">
+      <div className="aspect-[2/1] overflow-hidden rounded-xl" style={{ backgroundColor: az.wash }}>
+        <img src={ROOFTOP_IMAGE} alt="The rooftop bar" loading="lazy" className="h-full w-full object-cover" />
+      </div>
       <div>
         <Heading eyebrow="upstairs" title={["the", <em key="e" style={{ color: az.cobalt }}>rooftop.</em>]} />
-        <Reveal delay={100}>
-          <p className="text-lg leading-relaxed" style={{ color: az.muted }}>
-            River on one side, old town on the other. Open 17:00 to midnight. First drink's on us if you book direct.
-          </p>
-        </Reveal>
+        <p className="-mt-6 text-lg leading-relaxed" style={{ color: az.muted }}>
+          River on one side, old town on the other. 17:00 to midnight. First drink's on us if you book direct.
+        </p>
       </div>
     </section>
   );
@@ -100,7 +107,7 @@ export function Rooftop() {
 
 export function Extras() {
   return (
-    <section id="extras" className="scroll-mt-24 py-20" style={{ backgroundColor: az.paper }}>
+    <section id="extras" className="scroll-mt-24 py-16" style={{ backgroundColor: az.paper }}>
       <div className="mx-auto max-w-6xl px-6 md:px-12">
         <Heading eyebrow="extras" title={["the", <em key="e">little</em>, "things."]} />
         <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
@@ -140,8 +147,8 @@ const LISBON = [
 
 export function LisbonRecommendations() {
   return (
-    <section id="lisbon" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20 md:px-12">
-      <Heading eyebrow="our lisbon" title={["where we'd", <em key="e">go.</em>]} />
+    <section id="lisbon" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-16 md:px-12">
+      <Heading ghost="lisboa" eyebrow="our lisbon" title={["where we'd", <em key="e">go.</em>]} />
       <div className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
         {LISBON.map(([name, note], i) => (
           <Reveal key={name} delay={i * 60}>

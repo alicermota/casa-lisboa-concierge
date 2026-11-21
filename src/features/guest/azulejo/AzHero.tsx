@@ -3,7 +3,7 @@ import { az, display, scrollToId } from "./palette";
 import { Tile, pat, rotOf, seeded } from "./Tile";
 import { useConciergeEntry } from "../useConciergeEntry";
 
-const LINKS = [["the house", "hotel"], ["rooms", "rooms"], ["rooftop", "rooftop"], ["lisbon", "lisbon"]] as const;
+const LINKS = [["rooms", "rooms"], ["rooftop", "rooftop"], ["extras", "extras"], ["lisbon", "lisbon"]] as const;
 
 function Mark({ size = 22 }: { size?: number }) {
   return (
@@ -142,28 +142,42 @@ export function AzHero() {
     scrollToId("concierge");
   };
   return (
-    <header id="hero" className="relative flex min-h-[92svh] items-center overflow-hidden" style={{ backgroundColor: az.glaze }}>
+    <header id="hero" className="relative flex min-h-[88svh] items-center overflow-hidden" style={{ backgroundColor: az.glaze }}>
       <TileCollage />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 md:px-12">
-        <h1 className="max-w-3xl text-5xl leading-[1.02] md:text-7xl" style={{ ...display, color: az.ink, fontWeight: 400 }}>
-          <Words>
-            {[
-              "24 rooms. one rooftop.",
-              "someone",
-              <em key="e" style={{ color: az.cobalt }}>awake</em>,
-              "at 3am",
-              <button key="p" onClick={talk} className="az-pill" style={{ color: az.cobalt }}>
-                talk to the concierge ◈
-              </button>,
-            ]}
-          </Words>
-        </h1>
-        <p className="az-word mt-10 text-lg" style={{ animationDelay: "1300ms", color: az.ink, display: "block" }}>
-          <span style={{ color: az.muted }}>casa lisboa, baixa.</span>{" "}
-          <button onClick={() => scrollToId("rooms")} className="group inline-flex items-center gap-2" style={{ color: az.cobalt }}>
-            <span className="transition-transform group-hover:translate-x-1">→</span> see the rooms
-          </button>
+        <p className="az-word text-sm" style={{ color: az.cobalt, display: "block" }}>
+          casa lisboa · boutique hotel · baixa, lisbon
         </p>
+        <h1 className="mt-5 max-w-2xl text-5xl leading-[1.02] md:text-7xl" style={{ ...display, color: az.ink, fontWeight: 400 }}>
+          <Words start={2}>{["24 rooms in lisbon.", "a concierge that", <em key="e" style={{ color: az.cobalt }}>never</em>, "sleeps."]}</Words>
+        </h1>
+        <p className="az-word mt-6 max-w-md text-lg" style={{ animationDelay: "900ms", color: az.muted, display: "block" }}>
+          Ask about rooms, prices or the city. Out loud, in your language, at any hour.
+        </p>
+        <div className="az-word mt-9 flex flex-wrap items-center gap-5" style={{ animationDelay: "1100ms", display: "flex" }}>
+          <button
+            onClick={talk}
+            className="group flex items-center gap-3 rounded-full py-2 pl-2 pr-6 text-base font-medium transition-transform hover:scale-[1.03]"
+            style={{ backgroundColor: az.cobalt, color: "#fff", boxShadow: "0 14px 30px -12px rgba(11,59,240,0.6)" }}
+          >
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                <rect x="9" y="2" width="6" height="12" rx="3" />
+                <path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8" />
+              </svg>
+            </span>
+            talk to the concierge
+          </button>
+          <button onClick={() => scrollToId("rooms")} className="group inline-flex items-center gap-2 text-base" style={{ color: az.ink }}>
+            see the rooms <span className="transition-transform group-hover:translate-x-1">→</span>
+          </button>
+        </div>
+        <div className="az-word mt-14 flex gap-10 text-sm" style={{ animationDelay: "1300ms", display: "flex", color: az.muted, fontVariantNumeric: "tabular-nums" }}>
+          <span><b style={{ color: az.ink }}>24</b> rooms</span>
+          <span><b style={{ color: az.ink }}>1</b> rooftop bar</span>
+          <span><b style={{ color: az.ink }}>40+</b> countries</span>
+          <span>from <b style={{ color: az.ink }}>€140</b></span>
+        </div>
       </div>
     </header>
   );

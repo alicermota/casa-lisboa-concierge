@@ -7,7 +7,7 @@ import { WelcomeMarquee } from "./azulejo/Motion";
 import { AzHero, AzNav } from "./azulejo/AzHero";
 import { AzConcierge } from "./azulejo/AzConcierge";
 import { NightShift } from "./azulejo/NightShift";
-import { Extras, Footer, GoodToKnow, Intro, LisbonRecommendations, Rooftop, Rooms } from "./azulejo/AzSections";
+import { Extras, Footer, GoodToKnow, LisbonRecommendations, Rooftop, Rooms } from "./azulejo/AzSections";
 
 /**
  * Guest page, azulejo edition.
@@ -36,7 +36,6 @@ export function GuestPage() {
       <AzNav />
       <AzHero />
       <WelcomeMarquee />
-      <Intro />
       <Rooms />
       <Rooftop />
       <Extras />
