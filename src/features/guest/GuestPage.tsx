@@ -1,4 +1,9 @@
 import { guestTheme as t } from "./theme";
+import { TramGreeting } from "./TramGreeting";
+import { ConciergeMicButton } from "./ConciergeMicButton";
+import { TramJourney } from "./TramJourney";
+import { FloatingConcierge } from "./FloatingConcierge";
+import { useConciergeEntry } from "./useConciergeEntry";
 import heroAsset from "@/assets/electrico-hero.png.asset.json";
 
 const grain =
@@ -9,10 +14,12 @@ const HERO_IMAGE: string = heroAsset.url;
 export function GuestPage() {
   const scrollToConcierge = () =>
     document.getElementById("concierge")?.scrollIntoView({ behavior: "smooth" });
+  const { isActive } = useConciergeEntry();
 
   return (
     <div style={{ backgroundColor: t.bg, color: t.ink, fontFamily: "Inter, sans-serif" }}>
       <section
+        id="hero"
         className="relative flex min-h-screen items-end overflow-hidden"
         style={{
           background: HERO_IMAGE
@@ -25,9 +32,30 @@ export function GuestPage() {
           style={{ background: `linear-gradient(to top, ${t.plumDeep}e6 0%, ${t.plumDeep}66 40%, transparent 75%)` }}
         />
         <div className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay" style={{ backgroundImage: grain }} />
-        <div className="relative mx-auto w-full max-w-6xl px-6 pb-20 md:px-12 md:pb-28">
+        <a
+          href="#concierge"
+          className="absolute right-4 top-4 z-10 rounded-full px-4 py-2 text-sm font-medium backdrop-blur"
+          style={{ backgroundColor: `${t.plumDeep}99`, color: t.card }}
+        >
+          Skip animation
+        </a>
+        <div
+          aria-live="polite"
+          className="absolute left-1/2 top-[14%] -translate-x-1/2 rounded-md border-2 px-4 py-1 text-sm font-bold tracking-[0.3em] transition-all duration-500 md:left-[58%]"
+          style={{
+            backgroundColor: t.ink, borderColor: t.amber, color: t.amber,
+            boxShadow: isActive ? `0 0 40px 12px ${t.amber}aa` : "none",
+          }}
+        >
+          {isActive ? "YOUR STAY" : "LISBOA"}
+        </div>
+        <div className="relative mx-auto w-full max-w-6xl px-6 pb-12 md:px-12 md:pb-20">
+          <div className="mb-8 flex flex-col items-start gap-5">
+            <TramGreeting />
+            <ConciergeMicButton />
+          </div>
           <h1
-            className="text-6xl leading-none tracking-tight md:text-8xl lg:text-9xl"
+            className="text-5xl leading-none tracking-tight md:text-7xl lg:text-8xl"
             style={{ fontFamily: "Fraunces, serif", color: t.card, fontWeight: 500 }}
           >
             Casa Lisboa
@@ -44,6 +72,8 @@ export function GuestPage() {
           </button>
         </div>
       </section>
+
+      <TramJourney />
 
       <section id="concierge" className="mx-auto max-w-6xl scroll-mt-8 px-6 py-24 md:px-12 md:py-32">
         <div className="grid gap-8 md:grid-cols-2">
@@ -74,6 +104,7 @@ export function GuestPage() {
       <footer className="px-6 py-10 text-center text-sm" style={{ color: `${t.ink}99` }}>
         Illustration by [artist], used with permission · Fictional hotel, hackathon prototype
       </footer>
+      <FloatingConcierge />
     </div>
   );
 }
