@@ -41,7 +41,7 @@ export function Intro() {
 export function Rooms() {
   return (
     <section id="rooms" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12">
-      <Heading eyebrow="Rooms" title="Four ways to stay" />
+      <Heading eyebrow="Rooms & Suites" title="Four ways to stay" />
       <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
         {ROOMS_DISPLAY.map((r) => (
           <article key={r.name}>
@@ -54,6 +54,13 @@ export function Rooms() {
               </p>
               <p className="text-xs" style={{ color: muted }}>Breakfast included</p>
             </div>
+            <button
+              onClick={() => document.getElementById("concierge")?.scrollIntoView({ behavior: "smooth" })}
+              className="mt-3 text-sm underline decoration-1 underline-offset-4 transition-opacity hover:opacity-60"
+              style={{ color: t.plum }}
+            >
+              Enquire
+            </button>
           </article>
         ))}
       </div>
@@ -105,7 +112,7 @@ export function Extras() {
 
 export function GoodToKnow() {
   return (
-    <section id="good-to-know" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12">
+    <section id="good-to-know" className="mx-auto max-w-6xl scroll-mt-20 px-6 pb-24 pt-12 md:px-12">
       <Heading eyebrow="Good to know" title="The practical bits" />
       <dl className="grid gap-x-16 border-t sm:grid-cols-2 lg:grid-cols-3" style={{ borderColor: rule }}>
         {GOOD_TO_KNOW.map((g) => {
@@ -121,6 +128,46 @@ export function GoodToKnow() {
           );
         })}
       </dl>
+    </section>
+  );
+}
+
+export function DiscoverHotel() {
+  return (
+    <section id="hotel" className="scroll-mt-20 border-t" style={{ borderColor: rule }}>
+      <Intro />
+      <Rooftop />
+      <Extras />
+      <GoodToKnow />
+    </section>
+  );
+}
+
+const LISBON = [
+  { group: "See", items: ["Viewpoint", "Historic quarter"] },
+  { group: "Eat", items: ["Neighbourhood tasca", "Pastry stop"] },
+  { group: "Experience", items: ["Evening activity", "Day trip"] },
+] as const;
+
+export function LisbonRecommendations() {
+  return (
+    <section id="lisbon" className="mx-auto max-w-6xl scroll-mt-20 border-t px-6 py-24 md:px-12" style={{ borderColor: rule }}>
+      <Heading eyebrow="Lisbon recommendations" title="Our Lisbon, curated by the team" />
+      <div className="grid gap-12 md:grid-cols-3">
+        {LISBON.map((g) => (
+          <div key={g.group}>
+            <p className="text-sm uppercase tracking-[0.2em]" style={{ color: t.plum }}>{g.group}</p>
+            <div className="mt-6 space-y-4">
+              {g.items.map((i) => (
+                <div key={i} className="rounded-2xl border border-dashed p-6" style={{ borderColor: `${t.plum}33` }}>
+                  <p className="text-lg" style={{ ...serif, color: t.ink }}>{i}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: `${t.ink}66` }}>Placeholder · to be curated</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

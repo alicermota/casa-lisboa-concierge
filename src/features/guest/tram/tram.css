@@ -1,0 +1,13 @@
+@keyframes tram-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tram-roll { 0%,100% { transform: translateX(0); } 50% { transform: translateX(1.5%); } }
+@keyframes tram-sway { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-1.2%) rotate(-0.4deg); } }
+@keyframes tram-idle { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-0.6%); } }
+@keyframes tram-wave { 0% { transform: translateY(0) rotate(0); } 20% { transform: translateY(-95%) rotate(-12deg); } 40% { transform: translateY(-95%) rotate(14deg); } 60% { transform: translateY(-95%) rotate(-12deg); } 80% { transform: translateY(-95%) rotate(10deg); } 100% { transform: translateY(0) rotate(0); } }
+.tram-body { animation: tram-idle 4s ease-in-out infinite; }
+.tram-moving .tram-body { animation: tram-sway 0.45s ease-in-out infinite; }
+.tram-moving .tram-bogie { animation: tram-roll 0.3s linear infinite; }
+.tram-hand { transform-origin: 70% 100%; }
+.tram-waving { animation: tram-wave 1.8s ease-in-out; }
+@media (prefers-reduced-motion: reduce) {
+  .tram-body, .tram-moving .tram-body, .tram-moving .tram-bogie, .tram-waving { animation: none; }
+}

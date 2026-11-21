@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- The tram is layered (warm interior fill, driver, front panel with see-through windows, separate wheels) in `src/features/guest/tram/`; the scroll companion uses plain CSS transforms and a scroll listener, with no pinning or GSAP, and switches off with one flag in `tram/config.ts`. Why: page content and scrolling never depend on the animation.

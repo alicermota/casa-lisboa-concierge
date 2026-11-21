@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { guestTheme as t } from "./theme";
 
-const MESSAGE = "Olá! Welcome to Lisbon. Looking for somewhere special to stay?";
+const MESSAGE = "Olá! Looking for somewhere special to stay?";
 const paper =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23p)' opacity='0.12'/></svg>\")";
 

@@ -11,7 +11,11 @@ function MicIcon({ size = 22 }: { size?: number }) {
 }
 
 export function ConciergeMicButton({ compact = false }: { compact?: boolean }) {
-  const { isActive, activate } = useConciergeEntry();
+  const { isActive, activate: toggle } = useConciergeEntry();
+  const activate = () => {
+    if (!isActive) toggle();
+    document.getElementById("concierge")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   if (compact) {
     return (
       <button

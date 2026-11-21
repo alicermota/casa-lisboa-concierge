@@ -1,6 +1,6 @@
 import { guestTheme as t } from "./theme";
 
-const LINKS = [["Rooms", "rooms"], ["Rooftop", "rooftop"], ["Extras", "extras"], ["Good to know", "good-to-know"]] as const;
+const LINKS = [["Rooms", "rooms"], ["The Hotel", "hotel"], ["Lisbon", "lisbon"], ["Concierge", "concierge"]] as const;
 const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
 export function SiteNav() {
