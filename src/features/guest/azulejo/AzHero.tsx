@@ -52,7 +52,7 @@ export function AzNav() {
         <div className="flex items-center gap-2">
           <NavClock />
           <button onClick={() => scrollToId("concierge")} className="rounded-lg px-4 py-2 text-sm font-medium" style={{ backgroundColor: az.cobalt, color: "#fff" }}>
-            talk to us
+            let's talk
           </button>
         </div>
       </div>
@@ -153,7 +153,7 @@ export function AzHero() {
               <em key="e" style={{ color: az.cobalt }}>awake</em>,
               "at 3am",
               <button key="p" onClick={talk} className="az-pill" style={{ color: az.cobalt }}>
-                talk to us ◈
+                talk to the concierge ◈
               </button>,
             ]}
           </Words>

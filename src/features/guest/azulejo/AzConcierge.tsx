@@ -86,7 +86,7 @@ export function AzConcierge() {
         <Reveal>
           <p className="text-sm" style={{ color: `${az.wash}aa` }}>concierge</p>
           <h2 className="mt-3 text-5xl leading-tight md:text-6xl" style={{ ...serif, color: az.glaze }}>
-            <em style={{ color: az.wash }}>talk</em> to us.
+            talk to the <em style={{ color: az.wash }}>concierge.</em>
           </h2>
           <p className="mt-4 max-w-md text-lg" style={{ color: `${az.wash}cc` }}>
             Rooms, prices, the city. Any language. We'll leave it with the team for the morning.
