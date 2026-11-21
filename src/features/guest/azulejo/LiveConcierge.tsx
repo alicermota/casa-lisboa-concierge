@@ -5,6 +5,7 @@ import { useConciergeEntry } from "../useConciergeEntry";
 import { useActiveConcierge, IS_MOCK } from "../concierge";
 import { saveInquiry } from "@/features/desk/data";
 import { ConciergeProvider } from "@/features/agent/ConciergeProvider";
+import { ConciergeCall } from "@/features/agent/ConciergeCall";
 import type { TranscriptLine } from "@/shared/types";
 
 const STATUS: Record<string, string> = {
@@ -63,41 +64,25 @@ function ConciergePanel({ compact = false }: { compact?: boolean }) {
   const lines = c.transcript.slice(compact ? -3 : -5);
 
   return (
-    <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-[0.9fr_1.1fr] md:gap-8"}`}>
-      <div className="flex min-h-[380px] flex-col items-center rounded-sm border p-8 backdrop-blur-sm" style={{ borderColor: `${az.wash}22`, backgroundColor: `${az.navySoft}cc` }}>
-        <button
-          onClick={() => void (live ? c.end() : c.start())}
-          aria-label={live ? "End call" : "Start call"}
-          className={`mt-4 h-28 w-28 shrink-0 rounded-full transition-transform hover:scale-105 ${c.status === "speaking" ? "az-breathe" : ""} ${c.status === "listening" ? "az-listen" : ""}`}
-          style={{ background: `radial-gradient(circle at 35% 35%, ${az.wash}, ${c.status === "listening" ? az.amber : az.cobalt} 62%, ${az.navy})`, boxShadow: `0 0 80px ${az.cobalt}88` }}
-        />
-        <p className="mt-6 text-sm" style={{ color: `${az.wash}bb` }}>
-          {STATUS[c.status]}
-          {error && <span className="mt-2 block text-xs" style={{ color: az.amber }}>{error}</span>}
-          {IS_MOCK && <span className="ml-2 rounded-full px-2 py-0.5 text-[10px]" style={{ backgroundColor: `${az.amber}33`, color: az.amber }}>mock</span>}
-        </p>
-        <div className="mt-6 w-full space-y-2 text-sm">
-          {lines.map((l) => (
-            <p key={l.at} className={l.role === "agent" ? "" : "text-right"} style={{ color: l.role === "agent" ? az.glaze : `${az.wash}99` }}>
-              {l.role === "agent" ? <span style={serif} className="italic">{l.text}</span> : l.text}
-            </p>
-          ))}
-        </div>
-        {live && (
-          <button onClick={() => void c.end()} className="mt-auto pt-6 text-xs underline underline-offset-4" style={{ color: `${az.wash}88` }}>
-            end call
-          </button>
+    <div className={`grid gap-6 ${compact ? "" : "md:grid-cols-[0.95fr_1.05fr] md:gap-8"}`}>
+      <div>
+        {/* agent team's widget: orb, mic states, live waveform, transcript, options */}
+        <ConciergeCall c={c} />
+        {IS_MOCK && (
+          <p className="mt-2 text-center text-xs" style={{ color: az.amber }}>
+            mock call (scripted)
+          </p>
         )}
+        {error && <p className="mt-2 text-center text-xs" style={{ color: az.amber }}>{error}</p>}
       </div>
 
-      <div id="your-stay" className="rounded-sm p-6 md:p-8" style={{ backgroundColor: az.glaze }}>
+      <div id="your-stay" className="rounded-2xl p-6 md:p-8" style={{ backgroundColor: az.glaze }}>
         <p className="mb-5 text-sm" style={{ color: az.cobalt }}>your stay</p>
         <TileStage events={c.events} />
       </div>
     </div>
   );
 }
-
 
 /** Client-only entry: provider + panel. Loaded lazily so the ElevenLabs SDK never runs on the server. */
 export default function LiveConciergePanel({ compact = false }: { compact?: boolean }) {

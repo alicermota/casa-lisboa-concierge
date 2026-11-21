@@ -44,7 +44,7 @@
 
 /* night tiles glowing in the concierge section */
 @keyframes az-glow { 0%, 100% { opacity: 0.04; } 50% { opacity: 0.12; } }
-.az-glow { animation: az-glow 6s ease-in-out infinite; }
+.az-glow { opacity: 0.04; animation: az-glow 6s ease-in-out infinite both; }
 
 @media (prefers-reduced-motion: reduce) {
   .az-tile-in, .az-label-in { animation: none; opacity: 1; }

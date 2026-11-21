@@ -229,7 +229,7 @@ export function GoodToKnow() {
 export function Footer({ onReplayIntro }: { onReplayIntro?: () => void }) {
   return (
     <footer style={{ backgroundColor: az.navy, color: `${az.wash}cc` }}>
-      <TileStrip count={40} size={32} />
+      <TileStrip count={80} size={32} />
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-6 py-12 md:px-12">
         <p className="text-2xl" style={{ ...serif, color: "#fff" }}>casa lisboa.</p>
         <a href="https://open.spotify.com/search/fado" target="_blank" rel="noreferrer" className="group flex items-center gap-3">
