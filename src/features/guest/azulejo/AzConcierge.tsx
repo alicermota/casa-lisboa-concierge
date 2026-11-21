@@ -61,7 +61,7 @@ export function ConciergePanel({ compact = false }: { compact?: boolean }) {
       </div>
 
       <div id="your-stay" className="rounded-sm p-6 md:p-8" style={{ backgroundColor: az.glaze }}>
-        <p className="mb-5 text-sm" style={{ color: az.cobalt }}>your stay, tile by tile.</p>
+        <p className="mb-5 text-sm" style={{ color: az.cobalt }}>your stay</p>
         <TileStage events={c.events} />
       </div>
     </div>
@@ -72,9 +72,9 @@ export function ConciergePanel({ compact = false }: { compact?: boolean }) {
 export function AzConcierge() {
   return (
     <section id="concierge" className="relative scroll-mt-16 overflow-hidden" style={{ backgroundColor: az.navy }}>
-      <div className="h-40" style={{ background: `linear-gradient(${az.cobalt}, ${az.navy})` }} />
+      <div className="h-24" style={{ background: `linear-gradient(${az.cobalt}, ${az.navy})` }} />
 
-      <div className="pointer-events-none absolute inset-0 top-40 grid content-start grid-cols-8 md:grid-cols-12" aria-hidden>
+      <div className="pointer-events-none absolute inset-0 top-24 grid content-start grid-cols-8 md:grid-cols-12" aria-hidden>
         {Array.from({ length: 96 }).map((_, i) => (
           <div key={i} className="az-glow aspect-square" style={{ animationDelay: `${(i * 377) % 6000}ms` }}>
             <Tile pattern={pat(i)} color={az.cobaltSoft} className="h-full w-full mix-blend-screen" />
@@ -82,18 +82,17 @@ export function AzConcierge() {
         ))}
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-6 pb-32 pt-8 md:px-12">
+      <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-4 md:px-12">
         <Reveal>
-          <p className="text-sm" style={{ color: `${az.wash}aa` }}>the concierge.</p>
-          <h2 className="mt-4 text-5xl font-light leading-tight md:text-7xl" style={{ ...serif, color: az.glaze }}>
-            it's late.<br />
-            <em style={{ color: az.wash }}>we're still here.</em>
+          <p className="text-sm" style={{ color: `${az.wash}aa` }}>concierge</p>
+          <h2 className="mt-3 text-5xl leading-tight md:text-6xl" style={{ ...serif, color: az.glaze }}>
+            <em style={{ color: az.wash }}>talk</em> to us.
           </h2>
-          <p className="mt-6 max-w-xl text-lg" style={{ color: `${az.wash}cc` }}>
-            Ask about rooms, extras or the city, in your language. We'll shape your stay while we talk and pass it to the team for the morning.
+          <p className="mt-4 max-w-md text-lg" style={{ color: `${az.wash}cc` }}>
+            Rooms, prices, the city. Any language. We'll leave it with the team for the morning.
           </p>
         </Reveal>
-        <div className="mt-16">
+        <div className="mt-10">
           <ConciergePanel />
         </div>
       </div>

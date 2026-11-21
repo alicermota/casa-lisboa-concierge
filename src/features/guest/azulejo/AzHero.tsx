@@ -1,9 +1,9 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { az, display, scrollToId } from "./palette";
 import { Tile, pat, rotOf, seeded } from "./Tile";
 import { useConciergeEntry } from "../useConciergeEntry";
 
-const LINKS = [["rooms", "rooms"], ["the house", "hotel"], ["rooftop", "rooftop"], ["our lisbon", "lisbon"]] as const;
+const LINKS = [["the house", "hotel"], ["rooms", "rooms"], ["rooftop", "rooftop"], ["lisbon", "lisbon"]] as const;
 
 function Mark({ size = 22 }: { size?: number }) {
   return (
@@ -13,7 +13,24 @@ function Mark({ size = 22 }: { size?: number }) {
   );
 }
 
-/** Slim floating pill nav, tile.pt style. */
+/** Live Lisbon time with a green "awake" dot. */
+function NavClock() {
+  const [t, setT] = useState("");
+  useEffect(() => {
+    const f = () => setT(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Lisbon" }).format(new Date()));
+    f();
+    const id = setInterval(f, 15_000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="hidden items-center gap-1.5 text-xs sm:flex" style={{ color: az.muted, fontVariantNumeric: "tabular-nums" }}>
+      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+      lisboa {t}
+    </span>
+  );
+}
+
+/** Slim floating pill nav. */
 export function AzNav() {
   return (
     <nav className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
@@ -33,11 +50,9 @@ export function AzNav() {
           ))}
         </div>
         <div className="flex items-center gap-2">
+          <NavClock />
           <button onClick={() => scrollToId("concierge")} className="rounded-lg px-4 py-2 text-sm font-medium" style={{ backgroundColor: az.cobalt, color: "#fff" }}>
-            let's talk
-          </button>
-          <button onClick={() => scrollToId("concierge")} aria-label="More" className="flex h-9 w-9 items-center justify-center rounded-lg text-xl transition-transform hover:rotate-90" style={{ color: az.ink }}>
-            +
+            talk to us
           </button>
         </div>
       </div>
@@ -127,19 +142,16 @@ export function AzHero() {
     scrollToId("concierge");
   };
   return (
-    <header id="hero" className="relative flex min-h-[100svh] items-center overflow-hidden" style={{ backgroundColor: az.glaze }}>
+    <header id="hero" className="relative flex min-h-[92svh] items-center overflow-hidden" style={{ backgroundColor: az.glaze }}>
       <TileCollage />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 md:px-12">
         <h1 className="max-w-3xl text-5xl leading-[1.02] md:text-7xl" style={{ ...display, color: az.ink, fontWeight: 400 }}>
           <Words>
             {[
-              "we are",
-              <b key="b" style={{ fontWeight: 600, color: az.cobalt }}>
-                casa lisboa.
-              </b>,
-              "a home in the",
-              <em key="e">rhythm</em>,
-              "of the city, open even at 3am",
+              "24 rooms. one rooftop.",
+              "someone",
+              <em key="e" style={{ color: az.cobalt }}>awake</em>,
+              "at 3am",
               <button key="p" onClick={talk} className="az-pill" style={{ color: az.cobalt }}>
                 talk to us ◈
               </button>,
@@ -147,13 +159,10 @@ export function AzHero() {
           </Words>
         </h1>
         <p className="az-word mt-10 text-lg" style={{ animationDelay: "1300ms", color: az.ink, display: "block" }}>
-          but first{" "}
-          <button onClick={() => scrollToId("hotel")} className="group inline-flex items-center gap-2" style={{ color: az.cobalt }}>
-            <span className="transition-transform group-hover:translate-x-1">→</span> explore the house
+          <span style={{ color: az.muted }}>casa lisboa, baixa.</span>{" "}
+          <button onClick={() => scrollToId("rooms")} className="group inline-flex items-center gap-2" style={{ color: az.cobalt }}>
+            <span className="transition-transform group-hover:translate-x-1">→</span> see the rooms
           </button>
-        </p>
-        <p className="az-word mt-16 max-w-xs text-sm" style={{ animationDelay: "1500ms", color: az.muted, display: "block" }}>
-          a 24-room boutique hotel in a restored 19th-century building, central Lisbon.
         </p>
       </div>
     </header>
