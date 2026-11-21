@@ -3,7 +3,6 @@ import heroAsset from "@/assets/electrico-hero.png.asset.json";
 import streetAsset from "@/assets/lisbon-street.png.asset.json";
 import { guestTheme as t } from "./theme";
 
-const STOPS = ["Alfama", "Miradouro", "Baixa", "Casa Lisboa"];
 
 export function TramJourney() {
   const root = useRef<HTMLDivElement>(null);
@@ -27,10 +26,6 @@ export function TramJourney() {
           .to("[data-layer=near]", { xPercent: -80, ease: "none" }, 0)
           .fromTo("[data-layer=tram]", { x: "-30vw" }, { x: "70vw", ease: "none" }, 0)
           .to("[data-layer=tram]", { y: -6, repeat: 9, yoyo: true, ease: "sine.inOut", duration: 0.1 }, 0);
-        gsap.utils.toArray<HTMLElement>("[data-stop]").forEach((el, i) => {
-          tl.fromTo(el, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.12 }, 0.1 + i * 0.22)
-            .to(el, { autoAlpha: 0, y: -30, duration: 0.1 }, 0.28 + i * 0.22);
-        });
       }, root);
     })();
     return () => { cancelled = true; ctx?.revert(); };
@@ -53,13 +48,6 @@ export function TramJourney() {
       <div className="absolute bottom-[8%] left-0 right-0 h-1.5" style={{ backgroundColor: t.ink, opacity: 0.7 }} />
       <div data-layer="tram" className="absolute bottom-[9%] left-0 w-[70vw] max-w-[620px] overflow-hidden rounded-2xl border-4 shadow-2xl md:w-[45vw]"
         style={{ borderColor: t.amber, aspectRatio: "16 / 10", background: `center / cover url(${heroAsset.url})` }} />
-      <div className="pointer-events-none absolute inset-x-0 top-[28%] text-center">
-        {STOPS.map((s) => (
-          <p key={s} data-stop className="absolute inset-x-0 text-5xl md:text-7xl" style={{ fontFamily: "Fraunces, serif", color: t.card }}>
-            {s}
-          </p>
-        ))}
-      </div>
     </section>
   );
 }

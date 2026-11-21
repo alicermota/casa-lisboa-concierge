@@ -4,6 +4,8 @@ import { ConciergeMicButton } from "./ConciergeMicButton";
 import { TramJourney } from "./TramJourney";
 import { FloatingConcierge } from "./FloatingConcierge";
 import { useConciergeEntry } from "./useConciergeEntry";
+import { SiteNav } from "./SiteNav";
+import { Intro, Rooms, Rooftop, Extras, GoodToKnow } from "./Sections";
 import heroAsset from "@/assets/electrico-hero.png.asset.json";
 
 const grain =
@@ -73,9 +75,18 @@ export function GuestPage() {
         </div>
       </section>
 
+      <SiteNav />
+      <Intro />
       <TramJourney />
+      <Rooms />
+      <Rooftop />
+      <Extras />
+      <GoodToKnow />
 
-      <section id="concierge" className="mx-auto max-w-6xl scroll-mt-8 px-6 py-24 md:px-12 md:py-32">
+      <section id="concierge" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24 md:px-12 md:py-32">
+        <h2 className="mb-12 text-4xl md:text-5xl" style={{ fontFamily: "Fraunces, serif", color: t.plum }}>
+          It's late. We're still here.
+        </h2>
         <div className="grid gap-8 md:grid-cols-2">
           <div className="rounded-2xl p-10 shadow-sm" style={{ backgroundColor: t.card }}>
             <h2 className="text-3xl" style={{ fontFamily: "Fraunces, serif", color: t.plum }}>
