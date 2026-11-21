@@ -239,6 +239,10 @@ export function Footer({ onReplayIntro }: { onReplayIntro?: () => void }) {
           <span className="text-sm">fado for the road</span>
         </a>
         <p className="text-xs">
+          <a href="/desk" className="underline underline-offset-4 hover:text-white">hotel team: night desk</a>
+          {" · "}
+          <a href="/demo" className="underline underline-offset-4 hover:text-white">demo view</a>
+          {" · "}
           fictional hotel · hackathon prototype
           {onReplayIntro && (
             <>

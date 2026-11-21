@@ -27,7 +27,10 @@ export function DeskPreview() {
 
   return (
     <div className="min-h-full p-6 md:p-10" style={{ backgroundColor: C.bg, color: C.ink, fontFamily: '"DM Sans", sans-serif' }}>
-      <p className="text-sm" style={{ color: C.cobalt }}>night desk.</p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm" style={{ color: C.cobalt }}>night desk.</p>
+        <a href="/?intro=0" className="text-sm underline underline-offset-4" style={{ color: C.muted }}>← back to the site</a>
+      </div>
       <h1 className="mt-2 text-4xl font-light" style={{ fontFamily: '"Clash Display", "DM Sans", sans-serif' }}>good morning. here's your night.</h1>
 
       <div className="mt-8 grid grid-cols-3 gap-4" style={{ fontVariantNumeric: "tabular-nums" }}>

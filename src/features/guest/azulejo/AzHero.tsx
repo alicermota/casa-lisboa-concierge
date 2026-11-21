@@ -48,6 +48,9 @@ export function AzNav() {
               {l}
             </button>
           ))}
+          <a href="/desk" className="rounded-md border px-2 py-1 text-xs transition-colors hover:bg-[#0B3BF0] hover:text-white" style={{ borderColor: az.rule, color: az.muted }}>
+            night desk
+          </a>
         </div>
         <div className="flex items-center gap-2">
           <NavClock />
