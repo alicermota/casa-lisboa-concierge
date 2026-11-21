@@ -1,14 +1,13 @@
 /**
  * Opening: walk up to the azulejo house and through its doors, then land on the site.
  * Illustration and motion idea by Alice. Scroll/swipe drives it (~1.5 screens), or one click plays it.
- * Plays once per browser session. Set ENTRY_ENABLED = false to switch it off.
+ * Plays on every page load (add ?intro=0 to skip). Set ENTRY_ENABLED = false to switch it off.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HOUSE_SVG } from "./house";
 import { az, display } from "../azulejo/palette";
 
 export const ENTRY_ENABLED = true;
-const KEY = "casa-lisboa-entered";
 
 const clamp = (v: number) => Math.max(0, Math.min(1, v));
 const smooth = (v: number) => {
@@ -17,14 +16,11 @@ const smooth = (v: number) => {
 };
 const range = (p: number, a: number, b: number) => smooth((p - a) / (b - a));
 
+/** Plays on every load. Skip with ?intro=0 in the URL, or when the visitor prefers reduced motion. */
 export function shouldShowEntry() {
   if (!ENTRY_ENABLED || typeof window === "undefined") return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  try {
-    return sessionStorage.getItem(KEY) !== "1";
-  } catch {
-    return true;
-  }
+  return new URLSearchParams(window.location.search).get("intro") !== "0";
 }
 
 export function EntryGate({ onDone }: { onDone: () => void }) {
@@ -42,11 +38,6 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
   const finish = useCallback(() => {
     if (finished.current) return;
     finished.current = true;
-    try {
-      sessionStorage.setItem(KEY, "1");
-    } catch {
-      /* ignore */
-    }
     setLeaving(true);
     setTimeout(onDone, 700);
   }, [onDone]);

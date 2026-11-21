@@ -226,7 +226,7 @@ export function GoodToKnow() {
   );
 }
 
-export function Footer() {
+export function Footer({ onReplayIntro }: { onReplayIntro?: () => void }) {
   return (
     <footer style={{ backgroundColor: az.navy, color: `${az.wash}cc` }}>
       <TileStrip count={40} size={32} />
@@ -238,7 +238,17 @@ export function Footer() {
           </span>
           <span className="text-sm">fado for the road</span>
         </a>
-        <p className="text-xs">fictional hotel · hackathon prototype</p>
+        <p className="text-xs">
+          fictional hotel · hackathon prototype
+          {onReplayIntro && (
+            <>
+              {" · "}
+              <button onClick={onReplayIntro} className="underline underline-offset-4 hover:text-white">
+                replay the entrance
+              </button>
+            </>
+          )}
+        </p>
       </div>
     </footer>
   );

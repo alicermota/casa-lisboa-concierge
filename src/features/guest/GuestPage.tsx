@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EntryGate, shouldShowEntry } from "./entry/EntryGate";
+import { ENTRY_ENABLED, EntryGate, shouldShowEntry } from "./entry/EntryGate";
 import Lenis from "lenis";
 import "./azulejo/azulejo.css";
 import { az } from "./azulejo/palette";
@@ -16,9 +16,15 @@ import { Extras, Footer, GoodToKnow, LisbonRecommendations, Rooftop, Rooms } fro
  */
 export function GuestPage() {
   // opening animation (once per session); remounting the hero replays its entrance after the doors
-  const [entry, setEntry] = useState(false);
+  const [entry, setEntry] = useState(ENTRY_ENABLED);
   const [heroKey, setHeroKey] = useState(0);
-  useEffect(() => setEntry(shouldShowEntry()), []);
+  useEffect(() => {
+    if (!shouldShowEntry()) setEntry(false);
+  }, []);
+  const replayIntro = () => {
+    window.scrollTo(0, 0);
+    setEntry(true);
+  };
 
   // silky smooth scroll, like tile.pt
   useEffect(() => {
@@ -52,7 +58,7 @@ export function GuestPage() {
       <GoodToKnow />
       <NightShift />
       <AzConcierge />
-      <Footer />
+      <Footer onReplayIntro={replayIntro} />
     </div>
   );
 }
