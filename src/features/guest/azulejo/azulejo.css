@@ -68,3 +68,16 @@
 @keyframes az-listen { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 163, 61, 0.5); } 50% { box-shadow: 0 0 0 18px rgba(232, 163, 61, 0); } }
 .az-listen { animation: az-listen 1.8s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) { .az-stamp, .az-breathe, .az-listen { animation: none; opacity: 1; } }
+
+/* tile.pt-style emphasis: any <em> inside the guest page is PT Serif bold italic */
+.az-page em { font-family: "PT Serif", serif; font-style: italic; font-weight: 700; letter-spacing: -0.01em; }
+.az-page h1, .az-page h2, .az-page h3 { font-weight: 500; }
+
+/* inline outlined pill inside headlines */
+.az-pill { display: inline-flex; align-items: center; gap: 0.35em; vertical-align: middle; border: 1.5px solid currentColor; border-radius: 0.4em; padding: 0.05em 0.45em; font-size: 0.32em; letter-spacing: 0; line-height: 1.4; transition: background 300ms, color 300ms; }
+.az-pill:hover { background: #0B3BF0; color: #fff; border-color: #0B3BF0; }
+
+/* words rising in one by one */
+@keyframes az-word { from { opacity: 0; transform: translateY(0.4em); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+.az-word { display: inline-block; opacity: 0; animation: az-word 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@media (prefers-reduced-motion: reduce) { .az-word { animation: none; opacity: 1; } }

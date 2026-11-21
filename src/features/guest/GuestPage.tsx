@@ -12,7 +12,7 @@ import { Extras, Footer, GoodToKnow, Intro, LisbonRecommendations, Rooftop, Room
  */
 export function GuestPage() {
   return (
-    <div style={{ backgroundColor: az.glaze, color: az.ink, fontFamily: "Inter, sans-serif" }}>
+    <div className="az-page" style={{ backgroundColor: az.glaze, color: az.ink, fontFamily: '"DM Sans", sans-serif' }}>
       <TileDefs />
       <AzNav />
       <AzHero />
