@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { guestTheme as t } from "./theme";
 import { TramGreeting } from "./TramGreeting";
 import { ConciergeMicButton } from "./ConciergeMicButton";
@@ -14,6 +14,14 @@ const serif = { fontFamily: "Fraunces, serif" } as const;
 export function GuestPage() {
   const { isActive } = useConciergeEntry();
   const [waveKey, setWaveKey] = useState(0);
+  const bubbleRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // greeting fades as the journey begins
+    const on = () => { if (bubbleRef.current) bubbleRef.current.style.opacity = String(Math.max(0, 1 - window.scrollY / 220)); };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const first = setTimeout(() => setWaveKey(1), 1200);
@@ -46,7 +54,7 @@ export function GuestPage() {
           </div>
 
           <div className="relative mt-16 lg:col-span-7 lg:mt-0 lg:-mr-16">
-            <div className="absolute -top-4 right-[8%] z-20 lg:-top-10">
+            <div ref={bubbleRef} className="absolute -top-4 right-[8%] z-40 transition-opacity duration-300 lg:-top-10">
               <TramGreeting />
             </div>
             <div className="relative pt-20">

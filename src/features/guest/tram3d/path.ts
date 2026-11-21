@@ -21,6 +21,7 @@ export function buildPath(): PathKey[] {
   const laneL = LANE / 2, laneR = vw - LANE / 2, laneW = LANE - 30;
 
   const keys: PathKey[] = [];
+  if (vw < 1024) return buildMobilePath(keys, slot, vw, vh, max, top);
   if (slot) keys.push({ s: 0, sx: slot.left + slot.width / 2, sy: slot.top + slot.height * 0.5, w: slot.width * 0.95, yaw: -0.65, pitch: 0.12, look: 1 });
   const clampS = (v: number) => Math.min(max, Math.max(1, v));
   const pose = (sx: number, sy: number, w: number, yaw: number, look = 0): Omit<PathKey, "s"> => ({ sx, sy, w, yaw, pitch: 0.16, look });
@@ -59,5 +60,35 @@ export function sample(keys: PathKey[], s: number): PathKey {
       return { s, sx: l("sx"), sy: l("sy") - drift, w: l("w"), yaw: l("yaw"), pitch: l("pitch"), look: l("look") };
     }
   }
-  return keys[keys.length - 1]!;
+  const last = keys[keys.length - 1]!;
+  return { ...last, s, sy: last.sy - (s - last.s) }; // after the final stop the tram scrolls with the page
+}
+
+/**
+ * Phones/tablets: no side lanes, so the tram only appears in the whitespace between sections.
+ * At each boundary it drives in from one edge, crosses the gap and leaves by the other, alternating direction.
+ */
+function buildMobilePath(keys: PathKey[], slot: DOMRect | undefined, vw: number, vh: number, max: number,
+  top: (id: string) => number): PathKey[] {
+  const w = Math.min(230, vw * 0.55);
+  const clampS = (v: number) => Math.min(max, Math.max(1, v));
+  if (slot) keys.push({ s: 0, sx: slot.left + slot.width / 2, sy: slot.top + slot.height * 0.5, w: slot.width * 0.95, yaw: -0.5, pitch: 0.12, look: 1 });
+  const ids = ["rooms", "hotel", "lisbon", "concierge"];
+  ids.forEach((id, i) => {
+    const t = top(id);
+    const ltr = i % 2 === 0;
+    const off = (left: boolean) => (left ? -w : vw + w);
+    const base = { w, pitch: 0.14, look: 0 };
+    const yaw = ltr ? -0.35 : -Math.PI + 0.35; // facing travel direction, angled toward the visitor
+    keys.push({ s: clampS(t - vh * 0.85), sx: off(ltr), sy: vh * 0.85, yaw, ...base });
+    keys.push({ s: clampS(t - vh * 0.5), sx: vw / 2, sy: vh * 0.5, yaw: (yaw + (ltr ? -0.25 : 0.25)), ...base });
+    if (id !== "concierge") keys.push({ s: clampS(t - vh * 0.15), sx: off(!ltr), sy: vh * 0.15, yaw, ...base });
+  });
+  // last stop: parks just above the concierge heading, facing the visitor
+  const c = top("concierge");
+  const sEnd = clampS(c - vh * 0.3);
+  // sits in the concierge section's top padding (scrolls away with it rather than covering the cards)
+  keys.push({ s: sEnd, sx: vw / 2, sy: c - sEnd + 50, w: w * 0.9, yaw: -Math.PI / 2, pitch: 0.1, look: 1 });
+  for (let i = 1; i < keys.length; i++) if (keys[i]!.s <= keys[i - 1]!.s) keys[i]!.s = keys[i - 1]!.s + 1;
+  return keys;
 }

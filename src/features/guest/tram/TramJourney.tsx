@@ -123,7 +123,7 @@ export function TramBand({ label }: { label: string }) {
   }, []);
   if (!TRAM_COMPANION_ENABLED) return null;
   return (
-    <div ref={ref} aria-hidden className="relative mx-auto max-w-6xl overflow-hidden px-6 pt-10 lg:hidden">
+    <div ref={ref} aria-hidden className="tram-band relative mx-auto max-w-6xl overflow-hidden px-6 pt-10 lg:hidden">
       <div className="relative h-32">
         <div className="absolute bottom-3 left-0 right-0 h-[3px] rounded-full" style={{ backgroundColor: `${t.ink}aa` }} />
         <div className="absolute bottom-0 left-0 right-0 h-2" style={{ backgroundImage: `repeating-linear-gradient(90deg, ${t.ink}44 0 3px, transparent 3px 16px)` }} />

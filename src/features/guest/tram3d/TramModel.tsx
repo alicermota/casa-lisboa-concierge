@@ -123,16 +123,26 @@ function Bogie({ x, wheelRefs }: { x: number; wheelRefs: (g: Group | null) => vo
 }
 
 /** Placeholder driver: torso, head (cap + moustache), arm on controller, arm that waves. */
-function Driver({ headRef, armRef }: { headRef: React.Ref<Group>; armRef: React.Ref<Group> }) {
+function Driver({ headRef, armRef, torsoRef }: { headRef: React.Ref<Group>; armRef: React.Ref<Group>; torsoRef: React.Ref<Group> }) {
   return (
-    <group position={[3.3, 0.95, 0]}>
+    <group position={[3.3, 0.95, 0]} ref={torsoRef}>
+      <mesh position={[0.24, 0.6, 0]}><boxGeometry args={[0.02, 0.35, 0.07]} /><Toon color={C.burgundy} /></mesh>
       <mesh position={[0, 0.55, 0]}><boxGeometry args={[0.45, 0.7, 0.6]} /><Toon color={C.cream} /></mesh>
       <mesh position={[0.02, 0.55, 0]}><boxGeometry args={[0.47, 0.6, 0.4]} /><Toon color="#4A2A2A" /></mesh>
       <group ref={headRef} position={[0, 1.15, 0]}>
         <mesh><sphereGeometry args={[0.24, 18, 14]} /><Toon color="#E3A57A" /></mesh>
         <mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.26, 0.26, 0.14, 18]} /><Toon color={C.ink} /></mesh>
         <mesh position={[0.12, 0.14, 0]}><boxGeometry args={[0.3, 0.03, 0.4]} /><Toon color={C.ink} /></mesh>
-        <mesh position={[0.23, -0.06, 0]} rotation={[0, Math.PI / 2, 0]}><torusGeometry args={[0.1, 0.035, 8, 16, Math.PI]} /><Toon color="#2B1A12" /></mesh>
+        {/* curled moustache: two arcs with little curls */}
+        {[-1, 1].map((sz) => (
+          <group key={sz} position={[0.235, -0.07, sz * 0.06]}>
+            <mesh rotation={[sz * 0.3, Math.PI / 2, 0]}><torusGeometry args={[0.06, 0.028, 8, 14, Math.PI * 0.9]} /><Toon color="#2B1A12" /></mesh>
+            <mesh position={[0, 0.04, sz * 0.07]}><torusGeometry args={[0.025, 0.012, 6, 10]} /><Toon color="#2B1A12" /></mesh>
+          </group>
+        ))}
+        {/* eyes + nose */}
+        {[-0.08, 0.08].map((z) => <mesh key={z} position={[0.21, 0.04, z]}><sphereGeometry args={[0.025, 8, 6]} /><Toon color={C.ink} /></mesh>)}
+        <mesh position={[0.25, -0.01, 0]}><sphereGeometry args={[0.045, 8, 6]} /><Toon color="#D88E66" /></mesh>
       </group>
       {/* controller arm */}
       <group position={[0.15, 0.8, -0.3]} rotation={[0, 0, -1.1]}>
@@ -159,6 +169,7 @@ export const TramModel = forwardRef<TramHandles, { idle?: boolean }>(function Tr
   const arm = useRef<Group>(null);
   const body = useRef<Group>(null);
   const pole = useRef<Group>(null);
+  const torso = useRef<Group>(null);
   useImperativeHandle(ref, () => ({ wheels: wheels.current, head: head.current, waveArm: arm.current, body: body.current }), []);
   const addWheel = (g: Group | null) => { if (g && !wheels.current.includes(g)) wheels.current.push(g); };
 
@@ -167,6 +178,7 @@ export const TramModel = forwardRef<TramHandles, { idle?: boolean }>(function Tr
     const t = clock.getElapsedTime();
     if (body.current) body.current.position.y = Math.sin(t * 1.6) * 0.01;
     if (pole.current) pole.current.rotation.z = 0.9 + Math.sin(t * 1.3) * 0.015;
+    if (torso.current) torso.current.scale.y = 1 + Math.sin(t * 1.8) * 0.012; // breathing
   });
 
   return (
@@ -214,7 +226,7 @@ export const TramModel = forwardRef<TramHandles, { idle?: boolean }>(function Tr
           <mesh position={[0, 2.8, 0]}><sphereGeometry args={[0.07, 8, 6]} /><Toon color={C.ink} /></mesh>
         </group>
         <mesh position={[1.2, 3.5, 0]}><boxGeometry args={[0.4, 0.15, 0.4]} /><Toon color={C.ink} /></mesh>
-        <Driver headRef={head} armRef={arm} />
+        <Driver headRef={head} armRef={arm} torsoRef={torso} />
       </group>
     </group>
   );

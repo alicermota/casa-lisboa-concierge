@@ -50,7 +50,7 @@ function Rig() {
     if (h.body) h.body.position.y = Math.min(0.05, dist * 0.4) * Math.sin(performance.now() / 60);
 
     // driver: look toward visitor near hero/concierge; wave once on arrival
-    if (h.head) h.head.rotation.y = c.look * 1.1;
+    if (h.head) h.head.rotation.y = c.look * 1.1 * Math.max(0, 1 - dist * 6); // eyes back on the road while moving
     const atEnd = keys.current.length && Math.abs(target.s - keys.current[keys.current.length - 1]!.s) < 40 ? "end" : "";
     if (atEnd && wave.current.lastArrive !== atEnd) wave.current.start = performance.now() / 1000;
     wave.current.lastArrive = atEnd;
@@ -65,7 +65,7 @@ function Rig() {
 export default function TramScene3D() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-30" data-testid="tram-3d">
-      <Canvas camera={{ position: [0, 0, CAM_Z], fov: FOV }} dpr={[1, 1.75]} gl={{ alpha: true, antialias: true }}>
+      <Canvas camera={{ position: [0, 0, CAM_Z], fov: FOV }} dpr={[1, typeof window !== "undefined" && window.innerWidth < 768 ? 1.25 : 1.75]} gl={{ alpha: true, antialias: true }}>
         <ambientLight intensity={0.75} />
         <directionalLight position={[6, 10, 8]} intensity={1.5} />
         <Rig />
