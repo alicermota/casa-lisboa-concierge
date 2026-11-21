@@ -22,7 +22,7 @@ export function shouldShowEntry() {
   return new URLSearchParams(window.location.search).get("intro") !== "0";
 }
 
-export function EntryGate({ onDone }: { onDone: () => void }) {
+export function EntryGate({ onDone, onLeave }: { onDone: () => void; onLeave?: () => void }) {
   const world = useRef<HTMLDivElement>(null);
   const intro = useRef<HTMLDivElement>(null);
   const prompt = useRef<HTMLButtonElement>(null);
@@ -34,12 +34,18 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
   const [leaving, setLeaving] = useState(false);
   const finished = useRef(false);
 
+  // latest callbacks in refs, so finish (and the main effect) never change identity mid-animation
+  const onDoneRef = useRef(onDone);
+  const onLeaveRef = useRef(onLeave);
+  onDoneRef.current = onDone;
+  onLeaveRef.current = onLeave;
   const finish = useCallback(() => {
     if (finished.current) return;
     finished.current = true;
     setLeaving(true);
-    setTimeout(onDone, 700);
-  }, [onDone]);
+    onLeaveRef.current?.();
+    setTimeout(() => onDoneRef.current(), 700);
+  }, []);
 
   const draw = useCallback(
     (p: number) => {

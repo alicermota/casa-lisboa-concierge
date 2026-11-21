@@ -17,9 +17,13 @@ import { Extras, Footer, GoodToKnow, LisbonRecommendations, Rooftop, Rooms } fro
 export function GuestPage() {
   // opening animation (once per session); remounting the hero replays its entrance after the doors
   const [entry, setEntry] = useState(ENTRY_ENABLED);
-  const [heroKey, setHeroKey] = useState(0);
+  // hero entrance animations wait (paused) under the opening, then play as the doors fade: no remount, no twitch
+  const [heroPaused, setHeroPaused] = useState(ENTRY_ENABLED);
   useEffect(() => {
-    if (!shouldShowEntry()) setEntry(false);
+    if (!shouldShowEntry()) {
+      setEntry(false);
+      setHeroPaused(false);
+    }
   }, []);
   const replayIntro = () => {
     window.scrollTo(0, 0);
@@ -43,11 +47,11 @@ export function GuestPage() {
   }, [entry]);
 
   return (
-    <div className="az-page" style={{ backgroundColor: az.glaze, color: az.ink, fontFamily: '"DM Sans", sans-serif' }}>
+    <div className={`az-page ${heroPaused ? "az-paused" : ""}`} style={{ backgroundColor: az.glaze, color: az.ink, fontFamily: '"DM Sans", sans-serif' }}>
       <TileDefs />
       <AzNav />
-      {entry && <EntryGate onDone={() => { setEntry(false); setHeroKey((k) => k + 1); }} />}
-      <AzHero key={heroKey} />
+      {entry && <EntryGate onLeave={() => setHeroPaused(false)} onDone={() => setEntry(false)} />}
+      <AzHero />
       <WelcomeMarquee />
       <Rooms />
       <Frieze />

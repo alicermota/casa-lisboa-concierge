@@ -4,6 +4,7 @@ import { az, num, serif } from "./palette";
 import { Frieze, GhostTitle, Reveal, ScrollWords, TileCorners, TileStrip } from "./Motion";
 import { Tile, rotOf, pat } from "./Tile";
 import { EXTRAS_DISPLAY, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "../siteContent";
+import { fado } from "./fado";
 
 const ICONS: Record<string, LucideIcon> = { Baby, Bike, Car, Clock, Wine };
 
@@ -232,12 +233,7 @@ export function Footer({ onReplayIntro }: { onReplayIntro?: () => void }) {
       <TileStrip count={80} size={32} />
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-6 py-12 md:px-12">
         <p className="text-2xl" style={{ ...serif, color: "#fff" }}>casa lisboa.</p>
-        <a href="https://open.spotify.com/search/fado" target="_blank" rel="noreferrer" className="group flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border transition-transform group-hover:rotate-90" style={{ borderColor: `${az.wash}44` }}>
-            <Music size={16} />
-          </span>
-          <span className="text-sm">fado for the road</span>
-        </a>
+        <FadoButton />
         <p className="text-xs">
           <a href="/desk" className="underline underline-offset-4 hover:text-white">hotel team: night desk</a>
           {" · "}
@@ -255,5 +251,42 @@ export function Footer({ onReplayIntro }: { onReplayIntro?: () => void }) {
         </p>
       </div>
     </footer>
+  );
+}
+
+/** Plays an original, generated fado-style guitar loop (see fado.ts). */
+function FadoButton() {
+  const [on, setOn] = useState(false);
+  useEffect(() => () => fado().stop(), []);
+  const toggle = async () => {
+    if (on) {
+      fado().stop();
+      setOn(false);
+    } else {
+      await fado().start();
+      setOn(true);
+    }
+  };
+  return (
+    <button onClick={() => void toggle()} className="group flex items-center gap-3 text-left" aria-pressed={on}>
+      <span
+        className="flex h-10 w-10 items-center justify-center rounded-full border transition-all group-hover:rotate-90"
+        style={{ borderColor: on ? "#fff" : `${az.wash}44`, backgroundColor: on ? az.cobalt : "transparent" }}
+      >
+        {on ? (
+          <span className="flex h-4 items-end gap-[3px]" aria-hidden>
+            {[0, 1, 2].map((i) => (
+              <span key={i} className="w-[3px] rounded-sm bg-white animate-azul-bar" style={{ height: "100%", animationDelay: `${i * 0.18}s` }} />
+            ))}
+          </span>
+        ) : (
+          <Music size={16} />
+        )}
+      </span>
+      <span>
+        <span className="block text-sm" style={{ color: on ? "#fff" : undefined }}>{on ? "playing: fado for the road" : "fado for the road"}</span>
+        <span className="text-xs opacity-70">{on ? "tap to pause" : "an original guitar loop, press play"}</span>
+      </span>
+    </button>
   );
 }
