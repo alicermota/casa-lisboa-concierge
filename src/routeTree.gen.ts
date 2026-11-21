@@ -15,6 +15,11 @@ import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DeskRouteImport } from './routes/desk'
 import { Route as TramLabRouteImport } from './routes/tram-lab'
 import { Route as ApiForwardInquiryRouteImport } from './routes/api/forward-inquiry'
+import { Route as DeskIndexRouteImport } from './routes/desk.index'
+import { Route as DeskAnalyticsRouteImport } from './routes/desk.analytics'
+import { Route as DeskFollowUpsRouteImport } from './routes/desk.follow-ups'
+import { Route as DeskInquiriesRouteImport } from './routes/desk.inquiries'
+import { Route as DeskTonightRouteImport } from './routes/desk.tonight'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,31 +51,70 @@ const ApiForwardInquiryRoute = ApiForwardInquiryRouteImport.update({
   path: '/api/forward-inquiry',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeskIndexRoute = DeskIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DeskRoute,
+} as any)
+const DeskAnalyticsRoute = DeskAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => DeskRoute,
+} as any)
+const DeskFollowUpsRoute = DeskFollowUpsRouteImport.update({
+  id: '/follow-ups',
+  path: '/follow-ups',
+  getParentRoute: () => DeskRoute,
+} as any)
+const DeskInquiriesRoute = DeskInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => DeskRoute,
+} as any)
+const DeskTonightRoute = DeskTonightRouteImport.update({
+  id: '/tonight',
+  path: '/tonight',
+  getParentRoute: () => DeskRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
-  '/desk': typeof DeskRoute
+  '/desk': typeof DeskRouteWithChildren
   '/tram-lab': typeof TramLabRoute
   '/api/forward-inquiry': typeof ApiForwardInquiryRoute
+  '/desk/analytics': typeof DeskAnalyticsRoute
+  '/desk/follow-ups': typeof DeskFollowUpsRoute
+  '/desk/inquiries': typeof DeskInquiriesRoute
+  '/desk/tonight': typeof DeskTonightRoute
+  '/desk/': typeof DeskIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
-  '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
   '/api/forward-inquiry': typeof ApiForwardInquiryRoute
+  '/desk/analytics': typeof DeskAnalyticsRoute
+  '/desk/follow-ups': typeof DeskFollowUpsRoute
+  '/desk/inquiries': typeof DeskInquiriesRoute
+  '/desk/tonight': typeof DeskTonightRoute
+  '/desk': typeof DeskIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agent-debug': typeof AgentDebugRoute
   '/demo': typeof DemoRoute
-  '/desk': typeof DeskRoute
+  '/desk': typeof DeskRouteWithChildren
   '/tram-lab': typeof TramLabRoute
   '/api/forward-inquiry': typeof ApiForwardInquiryRoute
+  '/desk/analytics': typeof DeskAnalyticsRoute
+  '/desk/follow-ups': typeof DeskFollowUpsRoute
+  '/desk/inquiries': typeof DeskInquiriesRoute
+  '/desk/tonight': typeof DeskTonightRoute
+  '/desk/': typeof DeskIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,14 +125,23 @@ export interface FileRouteTypes {
     | '/desk'
     | '/tram-lab'
     | '/api/forward-inquiry'
+    | '/desk/analytics'
+    | '/desk/follow-ups'
+    | '/desk/inquiries'
+    | '/desk/tonight'
+    | '/desk/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agent-debug'
     | '/demo'
-    | '/desk'
     | '/tram-lab'
     | '/api/forward-inquiry'
+    | '/desk/analytics'
+    | '/desk/follow-ups'
+    | '/desk/inquiries'
+    | '/desk/tonight'
+    | '/desk'
   id:
     | '__root__'
     | '/'
@@ -97,13 +150,18 @@ export interface FileRouteTypes {
     | '/desk'
     | '/tram-lab'
     | '/api/forward-inquiry'
+    | '/desk/analytics'
+    | '/desk/follow-ups'
+    | '/desk/inquiries'
+    | '/desk/tonight'
+    | '/desk/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentDebugRoute: typeof AgentDebugRoute
   DemoRoute: typeof DemoRoute
-  DeskRoute: typeof DeskRoute
+  DeskRoute: typeof DeskRouteWithChildren
   TramLabRoute: typeof TramLabRoute
   ApiForwardInquiryRoute: typeof ApiForwardInquiryRoute
 }
@@ -152,14 +210,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiForwardInquiryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desk/': {
+      id: '/desk/'
+      path: '/'
+      fullPath: '/desk/'
+      preLoaderRoute: typeof DeskIndexRouteImport
+      parentRoute: typeof DeskRoute
+    }
+    '/desk/analytics': {
+      id: '/desk/analytics'
+      path: '/analytics'
+      fullPath: '/desk/analytics'
+      preLoaderRoute: typeof DeskAnalyticsRouteImport
+      parentRoute: typeof DeskRoute
+    }
+    '/desk/follow-ups': {
+      id: '/desk/follow-ups'
+      path: '/follow-ups'
+      fullPath: '/desk/follow-ups'
+      preLoaderRoute: typeof DeskFollowUpsRouteImport
+      parentRoute: typeof DeskRoute
+    }
+    '/desk/inquiries': {
+      id: '/desk/inquiries'
+      path: '/inquiries'
+      fullPath: '/desk/inquiries'
+      preLoaderRoute: typeof DeskInquiriesRouteImport
+      parentRoute: typeof DeskRoute
+    }
+    '/desk/tonight': {
+      id: '/desk/tonight'
+      path: '/tonight'
+      fullPath: '/desk/tonight'
+      preLoaderRoute: typeof DeskTonightRouteImport
+      parentRoute: typeof DeskRoute
+    }
   }
 }
+
+interface DeskRouteChildren {
+  DeskAnalyticsRoute: typeof DeskAnalyticsRoute
+  DeskFollowUpsRoute: typeof DeskFollowUpsRoute
+  DeskInquiriesRoute: typeof DeskInquiriesRoute
+  DeskTonightRoute: typeof DeskTonightRoute
+  DeskIndexRoute: typeof DeskIndexRoute
+}
+
+const DeskRouteChildren: DeskRouteChildren = {
+  DeskAnalyticsRoute: DeskAnalyticsRoute,
+  DeskFollowUpsRoute: DeskFollowUpsRoute,
+  DeskInquiriesRoute: DeskInquiriesRoute,
+  DeskTonightRoute: DeskTonightRoute,
+  DeskIndexRoute: DeskIndexRoute,
+}
+
+const DeskRouteWithChildren = DeskRoute._addFileChildren(DeskRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentDebugRoute: AgentDebugRoute,
   DemoRoute: DemoRoute,
-  DeskRoute: DeskRoute,
+  DeskRoute: DeskRouteWithChildren,
   TramLabRoute: TramLabRoute,
   ApiForwardInquiryRoute: ApiForwardInquiryRoute,
 }
