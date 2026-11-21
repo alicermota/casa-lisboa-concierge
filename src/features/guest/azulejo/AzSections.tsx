@@ -1,7 +1,7 @@
 import { Baby, Bike, Car, Clock, Wine, Music, type LucideIcon } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { az, num, serif } from "./palette";
-import { GhostTitle, Reveal, ScrollWords, TileStrip } from "./Motion";
+import { Frieze, GhostTitle, Reveal, ScrollWords, TileCorners, TileStrip } from "./Motion";
 import { Tile, rotOf, pat } from "./Tile";
 import { EXTRAS_DISPLAY, ROOFTOP_IMAGE, ROOMS_DISPLAY } from "../siteContent";
 
@@ -131,9 +131,11 @@ export function Rooms() {
 export function Rooftop() {
   return (
     <section id="rooftop" className="mx-auto grid max-w-6xl scroll-mt-24 items-center gap-10 px-6 py-16 md:grid-cols-2 md:px-12">
-      <div className="aspect-[2/1] overflow-hidden rounded-xl" style={{ backgroundColor: az.wash }}>
-        <img src={ROOFTOP_IMAGE} alt="The rooftop bar" loading="lazy" className="h-full w-full object-cover" />
-      </div>
+      <TileCorners>
+        <div className="aspect-[2/1] overflow-hidden rounded-xl" style={{ backgroundColor: az.wash }}>
+          <img src={ROOFTOP_IMAGE} alt="The rooftop bar" loading="lazy" className="h-full w-full object-cover" />
+        </div>
+      </TileCorners>
       <div>
         <Heading eyebrow="upstairs" title={["the", <em key="e" style={{ color: az.cobalt }}>rooftop.</em>]} />
         <p className="-mt-6 text-lg leading-relaxed" style={{ color: az.muted }}>
@@ -156,9 +158,14 @@ export function Extras() {
               <Reveal key={e.name} delay={i * 80}>
                 <div className="group aspect-square [perspective:900px]">
                   <div className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-sm border bg-white [backface-visibility:hidden]" style={{ borderColor: az.rule }}>
-                      <Icon size={26} strokeWidth={1.3} style={{ color: az.cobalt }} />
-                      <p className="px-3 text-center text-base leading-tight" style={{ ...serif, color: az.ink }}>{e.name.toLowerCase()}</p>
+                    <div className="absolute inset-0 overflow-hidden rounded-sm [backface-visibility:hidden]">
+                      <Tile pattern={pat(i + 2)} rotate={rotOf(i)} className="absolute inset-0 h-full w-full opacity-30" />
+                      <div className="relative flex h-full flex-col items-center justify-center gap-3">
+                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm">
+                          <Icon size={24} strokeWidth={1.4} style={{ color: az.cobalt }} />
+                        </span>
+                        <p className="rounded-full bg-white/90 px-3 py-0.5 text-center text-sm leading-tight" style={{ ...serif, color: az.ink }}>{e.name.toLowerCase()}</p>
+                      </div>
                     </div>
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-sm p-4 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]" style={{ backgroundColor: az.cobalt, color: "#fff" }}>
                       <p className="text-3xl" style={{ ...serif, ...num }}>{e.price}</p>
@@ -191,8 +198,11 @@ export function LisbonRecommendations() {
       <div className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
         {LISBON.map(([name, note], i) => (
           <Reveal key={name} delay={i * 60}>
-            <div className="flex items-baseline justify-between gap-4 border-t py-4" style={{ borderColor: az.rule }}>
-              <p className="text-lg" style={{ ...serif, color: az.ink }}>{name}</p>
+            <div className="group flex items-center justify-between gap-4 border-t py-4" style={{ borderColor: az.rule }}>
+              <span className="h-6 w-6 shrink-0 overflow-hidden rounded-[3px] transition-transform duration-700 group-hover:rotate-180">
+                <Tile pattern={pat(i)} className="h-full w-full" />
+              </span>
+              <p className="flex-1 text-lg" style={{ ...serif, color: az.ink }}>{name}</p>
               <p className="text-right text-sm" style={{ color: az.muted }}>{note}</p>
             </div>
           </Reveal>

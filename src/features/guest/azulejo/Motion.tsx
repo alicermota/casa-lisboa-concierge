@@ -142,3 +142,52 @@ export function ScrollWords({ parts, className = "", style }: { parts: (string |
     </h2>
   );
 }
+
+/** A moving frieze of tiles between sections, like the painted borders on Lisbon facades. */
+export function Frieze({ reverse = false, size = 40 }: { reverse?: boolean; size?: number }) {
+  const tiles = Array.from({ length: 40 }, (_, i) => i);
+  return (
+    <div className="az-marquee overflow-hidden" aria-hidden style={{ height: size }}>
+      <div className="az-marquee-track az-frieze-track" style={{ animationDirection: reverse ? "reverse" : "normal" }}>
+        {[...tiles, ...tiles].map((i, k) => (
+          <div key={k} className="shrink-0" style={{ width: size, height: size }}>
+            <Tile pattern={i % 2 === 0 ? "flor" : "estrela"} rotate={rotOf(i)} className="h-full w-full" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Four tiles that land on the corners of a frame when it scrolls into view. */
+export function TileCorners({ children, size = 56 }: { children: ReactNode; size?: number }) {
+  const { ref, inView } = useInView<HTMLDivElement>(0.3);
+  const spots = [
+    { top: -size / 3, left: -size / 3, r: -8 },
+    { top: -size / 3, right: -size / 3, r: 6 },
+    { bottom: -size / 3, left: -size / 3, r: 5 },
+    { bottom: -size / 3, right: -size / 3, r: -7 },
+  ];
+  return (
+    <div ref={ref} className="relative">
+      {children}
+      {spots.map(({ r, ...pos }, i) => (
+        <div
+          key={i}
+          className="absolute z-10 overflow-hidden rounded-[4px] shadow-[0_10px_24px_-12px_rgba(0,26,115,0.5)]"
+          style={{
+            ...pos,
+            width: size,
+            height: size,
+            transition: "transform 900ms cubic-bezier(0.2,0.8,0.2,1), opacity 600ms",
+            transitionDelay: `${200 + i * 120}ms`,
+            transform: inView ? `rotate(${r}deg)` : `rotate(${r * 6}deg) scale(0.4)`,
+            opacity: inView ? 1 : 0,
+          }}
+        >
+          <Tile pattern={pat(i + 3)} className="h-full w-full" />
+        </div>
+      ))}
+    </div>
+  );
+}

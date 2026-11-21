@@ -87,3 +87,4 @@
 .az-words.is-in .w { animation: az-word 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
 .az-ghost-track { animation-duration: 60s; }
 @media (prefers-reduced-motion: reduce) { .az-words .w { opacity: 1; filter: none; transform: none; } }
+.az-frieze-track { animation-duration: 50s; }

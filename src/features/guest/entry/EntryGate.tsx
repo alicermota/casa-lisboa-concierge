@@ -55,13 +55,14 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
     (p: number) => {
       const w = world.current;
       if (!w) return;
-      const zoom = range(p, 0.06, 0.97);
-      const opening = range(p, 0.28, 0.62);
-      const scale = Math.exp(zoom * Math.log(17));
+      const zoom = range(p, 0.04, 0.9);
+      const opening = range(p, 0.22, 0.55);
+      const scale = Math.exp(zoom * Math.log(9));
       const ww = w.offsetWidth;
       const wh = w.offsetHeight;
-      const offsetY = wh * (0.45 + range(p, 0, 0.6) * 0.32);
-      w.style.transform = `translate(${-ww / 2}px, ${-offsetY}px) scale(${scale})`;
+      const offsetY = wh * (0.45 + range(p, 0, 0.55) * 0.32);
+      w.style.transform = `translate3d(${-ww / 2}px, ${-offsetY}px, 0) scale(${scale})`;
+      w.style.willChange = p > 0 && p < 0.99 ? "transform" : "auto";
       const left = w.querySelector("#door-left");
       const right = w.querySelector("#door-right");
       left?.setAttribute("transform", `translate(735 753) matrix(${1 - opening * 0.94} ${opening * 0.24} 0 1 0 0) translate(-735 -753)`);
@@ -72,14 +73,14 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
         intro.current.style.transform = `translateY(${-range(p, 0, 0.2) * 26}px)`;
       }
       if (prompt.current) prompt.current.style.opacity = String(1 - range(p, 0.5, 0.7));
-      if (shade.current) shade.current.style.opacity = String(range(p, 0.78, 0.95));
-      if (p >= 0.995) finish();
+      if (shade.current) shade.current.style.opacity = String(range(p, 0.62, 0.86));
+      if (p >= 0.97) finish();
     },
     [finish],
   );
 
   const tick = useCallback(() => {
-    current.current += (target.current - current.current) * 0.12;
+    current.current += (target.current - current.current) * 0.09;
     if (Math.abs(target.current - current.current) < 0.0005) current.current = target.current;
     draw(current.current);
     raf.current = current.current !== target.current ? requestAnimationFrame(tick) : 0;
@@ -99,12 +100,15 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
     const from = target.current;
     const start = performance.now();
     const step = (now: number) => {
-      const t = clamp((now - start) / 2800);
-      push(from + (1 - from) * smooth(t));
+      const t = clamp((now - start) / 2400);
+      const v = from + (1 - from) * (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      target.current = v;
+      current.current = v;
+      draw(v);
       if (t < 1) auto.current = requestAnimationFrame(step);
     };
     auto.current = requestAnimationFrame(step);
-  }, [push]);
+  }, [draw]);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -172,7 +176,7 @@ export function EntryGate({ onDone }: { onDone: () => void }) {
       <div
         ref={world}
         className="absolute left-1/2 top-1/2 z-[5]"
-        style={{ width: "max(900px, min(100vw, 130svh))", maxWidth: 1800, aspectRatio: "1.6", transformOrigin: "50% 77%" }}
+        style={{ width: "max(900px, min(100vw, 130svh))", maxWidth: 1800, aspectRatio: "1.6", transformOrigin: "50% 77%", contain: "layout paint", backfaceVisibility: "hidden" }}
         dangerouslySetInnerHTML={{ __html: HOUSE_SVG }}
       />
 

@@ -4,7 +4,7 @@ import Lenis from "lenis";
 import "./azulejo/azulejo.css";
 import { az } from "./azulejo/palette";
 import { TileDefs } from "./azulejo/Tile";
-import { WelcomeMarquee } from "./azulejo/Motion";
+import { Frieze, WelcomeMarquee } from "./azulejo/Motion";
 import { AzHero, AzNav } from "./azulejo/AzHero";
 import { AzConcierge } from "./azulejo/AzConcierge";
 import { NightShift } from "./azulejo/NightShift";
@@ -44,8 +44,10 @@ export function GuestPage() {
       <AzHero key={heroKey} />
       <WelcomeMarquee />
       <Rooms />
+      <Frieze />
       <Rooftop />
       <Extras />
+      <Frieze reverse size={32} />
       <LisbonRecommendations />
       <GoodToKnow />
       <NightShift />
