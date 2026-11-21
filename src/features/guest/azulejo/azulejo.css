@@ -1,0 +1,55 @@
+/* Azulejo motion system. Everything respects prefers-reduced-motion. */
+
+/* hero wall: each tile flips in like being laid on the wall */
+@keyframes az-tile-in {
+  from { opacity: 0; transform: perspective(600px) rotateY(-90deg) scale(0.92); }
+  to { opacity: 1; transform: perspective(600px) rotateY(0) scale(1); }
+}
+.az-tile-in {
+  opacity: 0;
+  animation: az-tile-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* hover: a tile turns a quarter, like re-setting it on the wall */
+.az-turn { transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.az-turn:hover { transform: rotate(90deg); }
+
+/* scroll reveal */
+.az-reveal { opacity: 0; transform: translateY(28px); transition: opacity 900ms ease, transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.az-reveal.is-in { opacity: 1; transform: none; }
+
+/* image reveal: a blue glaze wipes away */
+.az-glaze-wipe { position: relative; overflow: hidden; }
+.az-glaze-wipe::after {
+  content: ""; position: absolute; inset: 0; background: #1F45B5;
+  transform-origin: right; transition: transform 1100ms cubic-bezier(0.7, 0, 0.2, 1) 150ms;
+}
+.az-glaze-wipe.is-in::after { transform: scaleX(0); }
+
+/* label panel in the hero */
+@keyframes az-label-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+.az-label-in { opacity: 0; animation: az-label-in 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+/* marquee */
+@keyframes az-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.az-marquee-track { display: flex; width: max-content; animation: az-marquee 38s linear infinite; }
+.az-marquee:hover .az-marquee-track { animation-play-state: paused; }
+
+/* slow drift of the hero wall */
+@keyframes az-drift { from { transform: translate3d(0, 0, 0) scale(1.04); } to { transform: translate3d(-2%, -1.5%, 0) scale(1.08); } }
+.az-drift { animation: az-drift 24s ease-in-out infinite alternate; }
+
+/* night tiles glowing in the concierge section */
+@keyframes az-glow { 0%, 100% { opacity: 0.08; } 50% { opacity: 0.22; } }
+.az-glow { animation: az-glow 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .az-tile-in, .az-label-in { animation: none; opacity: 1; }
+  .az-reveal { opacity: 1; transform: none; transition: none; }
+  .az-glaze-wipe::after { display: none; }
+  .az-marquee-track, .az-drift, .az-glow { animation: none; }
+  .az-turn:hover { transform: none; }
+}
