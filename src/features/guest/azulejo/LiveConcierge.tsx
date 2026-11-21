@@ -5,6 +5,7 @@ import { useConciergeEntry } from "../useConciergeEntry";
 import { useActiveConcierge, IS_MOCK } from "../concierge";
 import { saveInquiry } from "@/features/desk/data";
 import { ConciergeProvider } from "@/features/agent/ConciergeProvider";
+import type { TranscriptLine } from "@/shared/types";
 
 const STATUS: Record<string, string> = {
   idle: "tap to talk to the concierge",
@@ -16,7 +17,29 @@ const STATUS: Record<string, string> = {
 /** The concierge block itself (call + your stay). Used on / and on /demo. */
 function ConciergePanel({ compact = false }: { compact?: boolean }) {
   const { isActive } = useConciergeEntry();
-  const c = useActiveConcierge({ onInquiry: (i) => saveInquiry(i, IS_MOCK ? "sample_data" : "live_voice") });
+  // latest transcript + call start, so the confirmed inquiry can also go to the Night Desk app
+  const transcriptRef = useRef<TranscriptLine[]>([]);
+  const startedAt = useRef(0);
+  const c = useActiveConcierge({
+    onInquiry: async (i) => {
+      const saved = await saveInquiry(i, IS_MOCK ? "sample_data" : "live_voice");
+      if (!IS_MOCK) {
+        void fetch("/api/forward-inquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ inquiry: saved, transcript: transcriptRef.current, startedAt: startedAt.current }),
+        })
+          .then((r) => r.json())
+          .then((r) => console.info("Night Desk forward", r))
+          .catch(() => {});
+      }
+      return saved;
+    },
+  });
+  transcriptRef.current = c.transcript;
+  useEffect(() => {
+    if (c.status === "connecting") startedAt.current = Date.now();
+  }, [c.status]);
   const started = useRef(false);
   const live = c.status !== "idle";
   const [error, setError] = useState<string | null>(null);

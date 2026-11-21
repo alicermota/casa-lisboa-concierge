@@ -14,6 +14,7 @@ import { Route as AgentDebugRouteImport } from './routes/agent-debug'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DeskRouteImport } from './routes/desk'
 import { Route as TramLabRouteImport } from './routes/tram-lab'
+import { Route as ApiForwardInquiryRouteImport } from './routes/api/forward-inquiry'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const TramLabRoute = TramLabRouteImport.update({
   path: '/tram-lab',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiForwardInquiryRoute = ApiForwardInquiryRouteImport.update({
+  id: '/api/forward-inquiry',
+  path: '/api/forward-inquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
+  '/api/forward-inquiry': typeof ApiForwardInquiryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
+  '/api/forward-inquiry': typeof ApiForwardInquiryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/demo': typeof DemoRoute
   '/desk': typeof DeskRoute
   '/tram-lab': typeof TramLabRoute
+  '/api/forward-inquiry': typeof ApiForwardInquiryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
+  fullPaths:
+    | '/'
+    | '/agent-debug'
+    | '/demo'
+    | '/desk'
+    | '/tram-lab'
+    | '/api/forward-inquiry'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
-  id: '__root__' | '/' | '/agent-debug' | '/demo' | '/desk' | '/tram-lab'
+  to:
+    | '/'
+    | '/agent-debug'
+    | '/demo'
+    | '/desk'
+    | '/tram-lab'
+    | '/api/forward-inquiry'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent-debug'
+    | '/demo'
+    | '/desk'
+    | '/tram-lab'
+    | '/api/forward-inquiry'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   DemoRoute: typeof DemoRoute
   DeskRoute: typeof DeskRoute
   TramLabRoute: typeof TramLabRoute
+  ApiForwardInquiryRoute: typeof ApiForwardInquiryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TramLabRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/forward-inquiry': {
+      id: '/api/forward-inquiry'
+      path: '/api/forward-inquiry'
+      fullPath: '/api/forward-inquiry'
+      preLoaderRoute: typeof ApiForwardInquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoRoute: DemoRoute,
   DeskRoute: DeskRoute,
   TramLabRoute: TramLabRoute,
+  ApiForwardInquiryRoute: ApiForwardInquiryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
