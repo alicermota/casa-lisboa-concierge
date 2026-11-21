@@ -1,5 +1,5 @@
 import { Baby, Bike, Car, Clock, Wine, Music, type LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { az, num, serif } from "./palette";
 import { GhostTitle, Reveal, ScrollWords, TileStrip } from "./Motion";
 import { Tile, rotOf, pat } from "./Tile";
@@ -54,35 +54,74 @@ export function Intro() {
 }
 
 export function Rooms() {
+  const [active, setActive] = useState(0);
+  const [hovering, setHovering] = useState(false);
+  // gently cycle through the rooms until someone points at one
+  useEffect(() => {
+    if (hovering) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % ROOMS_DISPLAY.length), 3500);
+    return () => clearInterval(id);
+  }, [hovering]);
+
   return (
-    <section id="rooms" className="scroll-mt-24 py-20" style={{ backgroundColor: az.paper }}>
+    <section id="rooms" className="scroll-mt-24 py-20">
       <div className="mx-auto max-w-6xl px-6 md:px-12">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <Heading eyebrow="rooms" title={["four rooms.", "pick a", <em key="e">view.</em>]} />
-          <p className="mb-10 text-sm" style={{ color: az.muted }}>per night, breakfast included · Apr–Oct +20%</p>
-        </div>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {ROOMS_DISPLAY.map((r, i) => (
-            <Reveal key={r.name} delay={i * 80}>
-              <article className="group overflow-hidden rounded-xl bg-white shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-shadow hover:shadow-[0_20px_40px_-24px_rgba(0,26,115,0.4)]">
-                <div className="relative aspect-[3/2] overflow-hidden" style={{ backgroundColor: az.wash }}>
-                  <img src={r.image} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute right-2 top-2 h-7 w-7 overflow-hidden rounded-[4px] transition-transform duration-500 group-hover:rotate-90">
-                    <Tile pattern={pat(i + 1)} className="h-full w-full" />
-                  </div>
-                </div>
-                <div className="flex items-baseline justify-between gap-2 p-4">
-                  <div>
-                    <h3 className="text-lg leading-tight" style={{ ...serif, color: az.ink }}>{r.name}</h3>
-                    <p className="text-xs" style={{ color: az.muted, ...num }}>{r.size} m² · {r.feature.toLowerCase()}</p>
-                  </div>
-                  <p className="text-right text-sm" style={{ color: az.muted, ...num }}>
-                    <span className="text-lg" style={{ ...serif, color: az.cobalt }}>€{r.from}</span>
-                  </p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+        <Heading eyebrow="rooms" title={["four rooms.", "pick a", <em key="e">view.</em>]} />
+        <div className="grid items-center gap-10 md:grid-cols-[1.1fr_1fr]" onMouseLeave={() => setHovering(false)}>
+          <ol className="border-t" style={{ borderColor: az.rule }}>
+            {ROOMS_DISPLAY.map((r, i) => {
+              const on = i === active;
+              return (
+                <li key={r.name} className="border-b" style={{ borderColor: az.rule }}>
+                  <button
+                    onMouseEnter={() => {
+                      setHovering(true);
+                      setActive(i);
+                    }}
+                    onFocus={() => setActive(i)}
+                    onClick={() => setActive(i)}
+                    className="group flex w-full items-center gap-4 py-5 text-left transition-[padding] duration-500"
+                    style={{ paddingLeft: on ? 14 : 0 }}
+                  >
+                    <span className="h-7 w-7 shrink-0 overflow-hidden rounded-[4px] transition-transform duration-700" style={{ transform: on ? "rotate(90deg)" : "none", opacity: on ? 1 : 0.35 }}>
+                      <Tile pattern={pat(i + 1)} className="h-full w-full" />
+                    </span>
+                    <span className="flex-1 text-2xl md:text-3xl" style={{ ...serif, color: on ? az.cobalt : az.ink, transition: "color 300ms" }}>
+                      {r.name.toLowerCase()}
+                    </span>
+                    <span className="hidden text-sm sm:block" style={{ color: az.muted, ...num }}>
+                      {r.size} m² · {r.feature.toLowerCase()}
+                    </span>
+                    <span className="w-16 text-right text-lg" style={{ ...serif, color: on ? az.cobalt : az.ink, ...num }}>
+                      €{r.from}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+            <li className="pt-4 text-xs" style={{ color: az.muted }}>per night, breakfast included · Apr–Oct +20%</li>
+          </ol>
+
+          {/* the view: photos crossfade, a tile marks the room */}
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl" style={{ backgroundColor: az.wash }}>
+            {ROOMS_DISPLAY.map((r, i) => (
+              <img
+                key={r.name}
+                src={r.image}
+                alt={r.name}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{
+                  opacity: i === active ? 1 : 0,
+                  transform: i === active ? "scale(1)" : "scale(1.06)",
+                  transition: "opacity 700ms ease, transform 1400ms cubic-bezier(0.2,0.8,0.2,1)",
+                }}
+              />
+            ))}
+            <div className="absolute bottom-4 left-4 rounded-full px-3 py-1 text-xs backdrop-blur-md" style={{ backgroundColor: "#ffffffcc", color: az.ink }}>
+              {ROOMS_DISPLAY[active]?.name.toLowerCase()}
+            </div>
+          </div>
         </div>
       </div>
     </section>
