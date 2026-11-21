@@ -16,10 +16,9 @@ const smooth = (v: number) => {
 };
 const range = (p: number, a: number, b: number) => smooth((p - a) / (b - a));
 
-/** Plays on every load. Skip with ?intro=0 in the URL, or when the visitor prefers reduced motion. */
+/** Default: plays on every load, always. Only ?intro=0 in the URL skips it. */
 export function shouldShowEntry() {
   if (!ENTRY_ENABLED || typeof window === "undefined") return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
   return new URLSearchParams(window.location.search).get("intro") !== "0";
 }
 
